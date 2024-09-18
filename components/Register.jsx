@@ -1,22 +1,26 @@
-
+"use client";
+import Link from "next/link";
+import Image from "next/image";
 
 const Register = () => {
   return (
-    <div
-      className="mx-auto flex justify-center"
-      id="particles-js"
-      src="particles.js"
-    >
+    <div className="mx-auto flex justify-center">
       <form className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl">
         <div className="flex justify-center relative bottom-8">
           <h1 className="text-white font-bold text-3xl">Registration</h1>
         </div>
 
         {/* Name */}
-        <div className="mb-4">
+        <div className="mb-4 relative">
+          <Image
+            className="absolute bottom-2 left-2"
+            src="/assets/icons/bx-user.svg"
+            width={25}
+            height={25}
+          />
           <input
             type="name"
-            className="border rounded py-2 px-3"
+            className="border rounded py-2 px-3 pl-10"
             placeholder="Full Name"
             required
             value={""}
@@ -24,10 +28,16 @@ const Register = () => {
           />
         </div>
         {/* Username */}
-        <div className="mb-4">
+        <div className="mb-4 relative">
+          <Image
+            className="absolute bottom-2 left-2"
+            src="/assets/icons/bx-user.svg"
+            width={25}
+            height={25}
+          />
           <input
             type="username"
-            className="border rounded py-2 px-3"
+            className="border rounded py-2 px-3 pl-10"
             placeholder="Username"
             required
             value={""}
@@ -35,10 +45,16 @@ const Register = () => {
           />
         </div>
         {/* Email */}
-        <div className="mb-4">
+        <div className="mb-4 relative">
+          <Image
+            className="absolute bottom-2 left-2"
+            src="/assets/icons/bx-envelope.svg"
+            width={25}
+            height={25}
+          />
           <input
             type="email"
-            className="border rounded py-2 px-3"
+            className="border rounded py-2 px-3 pl-10"
             placeholder="Email"
             required
             value={""}
@@ -46,10 +62,16 @@ const Register = () => {
           />
         </div>
         {/* Phone Number */}
-        <div className="mb-4">
+        <div className="mb-4 relative">
+          <Image
+            className="absolute bottom-2 left-2"
+            src="/assets/icons/bx-phone.svg"
+            width={25}
+            height={25}
+          />
           <input
             type="tel"
-            className="border rounded py-2 px-3"
+            className="border rounded py-2 px-3 pl-10"
             placeholder="Phone Number"
             required
             value={""}
@@ -57,10 +79,16 @@ const Register = () => {
           />
         </div>
         {/* Password */}
-        <div className="mb-4">
+        <div className="mb-4 relative">
+          <Image
+            className="absolute bottom-2 left-2"
+            src="/assets/icons/bx-lock-alt.svg"
+            width={25}
+            height={25}
+          />
           <input
             type="password"
-            className="border rounded py-2 px-3"
+            className="border rounded py-2 px-3 pl-10"
             placeholder="Password"
             required
             value={""}
@@ -68,14 +96,23 @@ const Register = () => {
           />
         </div>
         {/* Register Button */}
-        <div className="flex justify-center">
+        <div className="flex flex-col justify-center">
           <button
-            className="bg-white rounded-lg font-bold text-gray-400 py-2 px-8 focus:outline-none focus:shadow-outline"
+            className="bg-white rounded-lg font-bold text-gray-800 py-2 px-8 mb-2 focus:outline-none focus:shadow-outline"
             onClick={""}
             type="submit"
           >
             Register
           </button>
+          <p className="text-gray-800 font-extrabold">
+            Already have an account?
+          </p>
+          <Link
+            href="/signin"
+            className="flex justify-center pr-2 text-gray-800 font-extrabold hover:bg-white rounded-lg"
+          >
+            Sign In
+          </Link>
         </div>
       </form>
     </div>
