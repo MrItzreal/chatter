@@ -1,5 +1,6 @@
 import "./globals.css";
 import Particle from "@/utils/Particle";
+import { ToastContainer } from "react-toastify";
 
 export const metadata = {
   title: "Chatter",
@@ -12,6 +13,7 @@ const RootLayout = ({ children }) => {
       <body className="bg-slate-700 font-mono">
         {children}
         <Particle />
+        <ToastContainer />
       </body>
     </html>
   );

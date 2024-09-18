@@ -1,6 +1,9 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignIn = () => {
   return (
@@ -59,7 +62,7 @@ const SignIn = () => {
           </p>
           <Link
             href="/register"
-            className="flex justify-center pr-2 text-gray-800 font-extrabold hover:bg-white rounded-lg"
+            className="flex justify-center pr-2 text-gray-800 font-extrabold hover:bg-white duration-700 rounded-lg"
           >
             Register
           </Link>

@@ -1,11 +1,16 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   return (
     <div className="mx-auto flex justify-center">
-      <form className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl">
+      <form
+        onSubmit={() => {}}
+        className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl"
+      >
         <div className="flex justify-center relative bottom-8">
           <h1 className="text-white font-bold text-3xl">Registration</h1>
         </div>
@@ -23,8 +28,8 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Full Name"
             required
-            value={""}
-            onChange={""}
+            value={() => {}}
+            onChange={() => {}}
           />
         </div>
         {/* Username */}
@@ -40,8 +45,8 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Username"
             required
-            value={""}
-            onChange={""}
+            value={() => {}}
+            onChange={() => {}}
           />
         </div>
         {/* Email */}
@@ -57,8 +62,8 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Email"
             required
-            value={""}
-            onChange={""}
+            value={() => {}}
+            onChange={() => {}}
           />
         </div>
         {/* Phone Number */}
@@ -74,8 +79,8 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Phone Number"
             required
-            value={""}
-            onChange={""}
+            value={() => {}}
+            onChange={() => {}}
           />
         </div>
         {/* Password */}
@@ -91,15 +96,14 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Password"
             required
-            value={""}
-            onChange={""}
+            value={() => {}}
+            onChange={() => {}}
           />
         </div>
         {/* Register Button */}
         <div className="flex flex-col justify-center">
           <button
             className="bg-white rounded-lg font-bold text-gray-800 py-2 px-8 mb-2 focus:outline-none focus:shadow-outline"
-            onClick={""}
             type="submit"
           >
             Register
@@ -109,7 +113,7 @@ const Register = () => {
           </p>
           <Link
             href="/signin"
-            className="flex justify-center pr-2 text-gray-800 font-extrabold hover:bg-white rounded-lg"
+            className="flex justify-center pr-2 text-gray-800 font-extrabold hover:bg-white duration-700  rounded-lg"
           >
             Sign In
           </Link>
