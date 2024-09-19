@@ -1,14 +1,22 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
+  //NOTE: adding a state for every field in your form is good practice.
+  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div className="mx-auto flex justify-center">
       <form
-        onSubmit={() => {}}
+        onSubmit={""}
         className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl"
       >
         <div className="flex justify-center relative bottom-8">
@@ -28,8 +36,8 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Full Name"
             required
-            value={() => {}}
-            onChange={() => {}}
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
           />
         </div>
         {/* Username */}
@@ -45,8 +53,8 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Username"
             required
-            value={() => {}}
-            onChange={() => {}}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         {/* Email */}
@@ -62,8 +70,8 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Email"
             required
-            value={() => {}}
-            onChange={() => {}}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         {/* Phone Number */}
@@ -79,8 +87,8 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Phone Number"
             required
-            value={() => {}}
-            onChange={() => {}}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
           />
         </div>
         {/* Password */}
@@ -96,8 +104,8 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Password"
             required
-            value={() => {}}
-            onChange={() => {}}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         {/* Register Button */}

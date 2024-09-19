@@ -6,6 +6,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignIn = () => {
+  //NOTE: adding a state for every field in your form is good practice.
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <div className="mx-auto flex justify-center">
       <form className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl">
@@ -26,8 +29,8 @@ const SignIn = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Username"
             required
-            value={""}
-            onChange={""}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 
@@ -44,8 +47,8 @@ const SignIn = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Password"
             required
-            value={""}
-            onChange={""}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         {/* Sign In Button */}
