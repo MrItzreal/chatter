@@ -116,7 +116,7 @@ const Register = () => {
           >
             Register
           </button>
-          <p className="text-gray-800 font-extrabold">
+          <p className="flex justify-center text-gray-800 font-extrabold">
             Already have an account?
           </p>
           <Link
