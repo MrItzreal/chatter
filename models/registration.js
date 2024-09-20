@@ -34,7 +34,6 @@ const RegistrationSchema = new Schema(
     },
     passwordHash: {
       type: String,
-      required: [true, "Password is required!"],
     },
   },
   { timestamps: true }

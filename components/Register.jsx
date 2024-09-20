@@ -30,6 +30,7 @@ const Register = () => {
             src="/assets/icons/bx-user.svg"
             width={25}
             height={25}
+            alt="name"
           />
           <input
             type="name"
@@ -47,6 +48,7 @@ const Register = () => {
             src="/assets/icons/bx-user.svg"
             width={25}
             height={25}
+            alt="username"
           />
           <input
             type="username"
@@ -64,6 +66,7 @@ const Register = () => {
             src="/assets/icons/bx-envelope.svg"
             width={25}
             height={25}
+            alt="email"
           />
           <input
             type="email"
@@ -81,6 +84,7 @@ const Register = () => {
             src="/assets/icons/bx-phone.svg"
             width={25}
             height={25}
+            alt="Phone"
           />
           <input
             type="tel"
@@ -98,6 +102,7 @@ const Register = () => {
             src="/assets/icons/bx-lock-alt.svg"
             width={25}
             height={25}
+            alt="password"
           />
           <input
             type="password"
