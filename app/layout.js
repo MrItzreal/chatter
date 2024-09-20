@@ -1,5 +1,5 @@
 import "./globals.css";
-import Particle from "@/utils/Particle";
+import Particle from "@/utils/particle";
 import { ToastContainer } from "react-toastify";
 
 export const metadata = {
