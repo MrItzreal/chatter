@@ -4,17 +4,24 @@ import User from "@models/user";
 export const GET = async (request) => {
   try {
     await connectToDB();
-
     const { searchParams } = new URL(request.url);
     const username = searchParams.get("username");
-    const user = await User.findOne({ username });
 
-    if (!user) {
-      return new Response("User not found", { status: 404 });
+    let result;
+    if (username) {
+      // Fetch One User:
+      result = await User.findOne({ username });
+      if (!result) {
+        return new Response("User not found", { status: 404 });
+      }
+    } else {
+      // Fetch All Users:
+      result = await User.find({});
     }
 
-    return new Response(JSON.stringify(user), { status: 200 });
+    return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
-    return new Response("Failed to fetch user!", { status: 500 });
+    console.error("Error fetching users:", error);
+    return new Response("Failed to fetch users", { status: 500 });
   }
 };
