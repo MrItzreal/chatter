@@ -15,6 +15,7 @@ export const POST = async (req, res) => {
     });
 
     await newUser.save(); //save new user in DB
+    console.log("New user saved successfully!");
 
     return new Response(JSON.stringify(newUser), { status: 201 });
   } catch (error) {

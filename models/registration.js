@@ -1,5 +1,6 @@
 import { Schema, model, models } from "mongoose";
 import bcrypt from "bcrypt";
+import User from "@models/user";
 
 // Model for registration form
 const RegistrationSchema = new Schema(
@@ -46,6 +47,21 @@ RegistrationSchema.pre("save", async function (next) {
   this.passwordHash = await bcrypt.hash(this.password, salt);
   this.password = undefined; // Clear the plaintext password
   next(); // Must be called to avoid an indefinite hang
+});
+
+// Transfer New Users to the Users collection
+RegistrationSchema.post("save", async function () {
+  const { username, passwordHash } = this;
+  try {
+    const newUser = new User({
+      username: username,
+      passwordHash: passwordHash,
+    });
+
+    await newUser.save();
+  } catch (error) {
+    console.log("Error transferring registration data to User");
+  }
 });
 
 const Registration =
