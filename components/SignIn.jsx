@@ -23,6 +23,7 @@ const SignIn = () => {
             src="/assets/icons/bx-user.svg"
             width={25}
             height={25}
+            alt="username"
           />
           <input
             type="username"
@@ -41,6 +42,7 @@ const SignIn = () => {
             src="/assets/icons/bx-lock-alt.svg"
             width={25}
             height={25}
+            alt="password"
           />
           <input
             type="password"
@@ -55,7 +57,6 @@ const SignIn = () => {
         <div className="flex flex-col">
           <button
             className="bg-white rounded-lg font-bold text-gray-800 py-2 px-8 mb-2 focus:outline-none focus:shadow-outline"
-            onClick={""}
             type="submit"
           >
             Sign In

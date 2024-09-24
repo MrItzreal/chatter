@@ -1,22 +1,29 @@
 "use client";
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-const Register = () => {
-  //NOTE: adding a state for every field in your form is good practice.
-  const [fullName, setFullName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+const Register = ({
+  fullname,
+  setFullName,
+  username,
+  setUsername,
+  email,
+  setEmail,
+  phone,
+  setPhone,
+  password,
+  setPassword,
+  createNewUser,
+}) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createNewUser(e);
+  };
 
   return (
     <div className="mx-auto flex justify-center">
       <form
-        onSubmit={""}
+        onSubmit={handleSubmit}
         className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl"
       >
         <div className="flex justify-center relative bottom-8">
@@ -37,7 +44,7 @@ const Register = () => {
             className="border rounded py-2 px-3 pl-10"
             placeholder="Full Name"
             required
-            value={fullName}
+            value={fullname}
             onChange={(e) => setFullName(e.target.value)}
           />
         </div>
