@@ -1,14 +1,8 @@
 "use client";
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-const SignIn = () => {
-  //NOTE: adding a state for every field in your form is good practice.
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const SignIn = ({ username, setUsername, password, setPassword }) => {
   return (
     <div className="mx-auto flex justify-center">
       <form className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl">
