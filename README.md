@@ -60,10 +60,14 @@ npm i react-icons
 npm i react-toastify
 ```
 
-- **framer-motion:** A simple yet powerful motion library for React. It powers the amazing animations and interactions in Framer, the web builder for creative pros. Zero code, maximum speed:
+- **tsparticles & tsparticles/react :** are npm packages that work together to enable you to create beautiful particle animations in your applications. **tsparticles** is the core library that powers the particle animations. **tsparticles/react** is a React-specific wrapper that makes it simple to use tsParticles within your applications.
 
   ```bash
-  npm i framer-motion
+  npm i @tsparticles/react
+  ```
+
+  ```bash
+  npm i tsparticles
   ```
 
 ### Development Dependency
