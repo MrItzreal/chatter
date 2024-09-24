@@ -3,6 +3,10 @@ import { Schema, model, models } from "mongoose";
 // Model for user form
 const UserSchema = new Schema(
   {
+    fullname: {
+      type: String,
+      required: [true, "Full name is required"],
+    },
     username: {
       type: String,
       unique: [true, "Username already exists!"],
@@ -11,6 +15,15 @@ const UserSchema = new Schema(
         /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
         "Username invalid, it should contain 8-20 alphanumeric letters and be unique!",
       ],
+    },
+    email: {
+      type: String,
+      unique: [true, "Email already exists!"],
+      required: [true, "Email is required!"],
+    },
+    phone: {
+      type: String,
+      required: [true, "Phone number is required!"],
     },
     passwordHash: {
       type: String,

@@ -51,10 +51,13 @@ RegistrationSchema.pre("save", async function (next) {
 
 // Transfer New Users to the Users collection
 RegistrationSchema.post("save", async function () {
-  const { username, passwordHash } = this;
+  const { fullname, username, email, phone, passwordHash } = this;
   try {
     const newUser = new User({
+      fullname: fullname,
       username: username,
+      email: email,
+      phone: phone,
       passwordHash: passwordHash,
     });
 
