@@ -2,10 +2,23 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const SignIn = ({ username, setUsername, password, setPassword }) => {
+const SignIn = ({
+  username,
+  setUsername,
+  password,
+  setPassword,
+  fetchUser,
+}) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchUser(e);
+  };
   return (
     <div className="mx-auto flex justify-center">
-      <form className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl"
+      >
         <div className="flex justify-center relative bottom-8">
           <h1 className="text-white font-bold text-3xl">Welcome Back!</h1>
         </div>
