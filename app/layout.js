@@ -6,6 +6,7 @@ import Provider from "@components/Provider";
 export const metadata = {
   title: "Chatter",
   description: "Real-Time Chat App",
+  icons: "/assets/icons/favicon.png",
 };
 
 const RootLayout = ({ children }) => {
