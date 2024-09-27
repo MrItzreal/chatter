@@ -12,6 +12,19 @@ const handler = NextAuth({
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
+      callbacks: {
+        async session({ session }) {
+          const sessionUser = await User.findOne({
+            username: session.user.name,
+          });
+          session.user.id = sessionUser._id.toString();
+          return session;
+
+          //1-Gets current user
+          //2-Updates current user ID
+          //3-Identifies which user is logged in
+        },
+      },
       async authorize(credentials, req) {
         try {
           await connectToDB();
@@ -48,4 +61,5 @@ NOTES:
 -[...nextauth] is the current naming convention in order to create a route.js file.
 -In Next.js, each route functions as a serverless endpoint, similar to AWS Lambda functions. 
 -These endpoints are invoked only when requested, establishing a connection to the database on demand. This approach eliminates the need for a continuously running server, optimizing resource usage.
+-The **session** callback allows you to fetch the user's ID from the database based on their username and add it to the session object. This ensures that your application can accurately identify the logged-in user and associate their actions (like sending messages) with their unique ID.
 */
