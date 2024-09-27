@@ -1,8 +1,10 @@
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@models/user";
 import { connectToDB } from "@utils/database";
+import bcrypt from "bcrypt";
 
-const handler = nextAuth({
+const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -12,19 +14,27 @@ const handler = nextAuth({
       },
       async authorize(credentials, req) {
         try {
-          await connectToDB(req);
-          const user = { username: "", password: "" };
+          await connectToDB();
+          const { username, password } = await req.json(); // Extract username/password from req body
 
-          if (user) {
-            // Any object returned will be saved in `user` property of the JWT
-            return user;
-          } else {
-            // If you return null then an error will be displayed advising the user to check their details.
+          const user = await User.findOne({ username }); // Find user by username
+          if (!user) {
             return null;
-
-            // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
           }
-        } catch (error) {}
+
+          const isPasswordValid = await bcrypt.compare(
+            password,
+            user.passwordHash
+          );
+          if (!isPasswordValid) {
+            return null;
+          }
+
+          return user;
+        } catch (error) {
+          console.error("Error during authentication:", error);
+          return null;
+        }
       },
     }),
   ],
