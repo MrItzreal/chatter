@@ -1,5 +1,5 @@
 import "./globals.css";
-import Particle from "@/utils/particle";
+import Particle from "@utils/Particle";
 import { ToastContainer } from "react-toastify";
 import Provider from "@components/Provider";
 
