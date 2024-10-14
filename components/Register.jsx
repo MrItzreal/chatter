@@ -24,7 +24,7 @@ const Register = ({
     <div className="mx-auto my-20 flex justify-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl"
+        className="sm:bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl"
       >
         <div className="flex justify-center relative bottom-8">
           <h1 className="text-white font-bold text-3xl">Registration</h1>
