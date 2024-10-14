@@ -4,6 +4,7 @@ import User from "@models/user";
 import { connectToDB } from "@utils/database";
 import bcrypt from "bcrypt";
 
+// Session based authentication + NextAuth as management library:
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
