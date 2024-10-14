@@ -14,7 +14,7 @@ const SignIn = ({
     fetchUser(e);
   };
   return (
-    <div className="mx-auto flex justify-center">
+    <div className="mx-auto my-20 flex justify-center">
       <form
         onSubmit={handleSubmit}
         className="bg-gradient-to-r from-cyan-800 to-blue-500 p-20 m-20 rounded-xl"
@@ -68,12 +68,12 @@ const SignIn = ({
           >
             Sign In
           </button>
-          <p className="flex justify-center text-gray-800 font-extrabold">
+          <p className="flex justify-center text-white font-extrabold">
             Don't have an account?
           </p>
           <Link
             href="/register"
-            className="flex justify-center pr-2 text-gray-800 font-extrabold hover:bg-white duration-700 rounded-lg"
+            className="flex justify-center pr-2 text-white font-extrabold hover:bg-white hover:text-gray-800 duration-700 rounded-lg"
           >
             Register
           </Link>
