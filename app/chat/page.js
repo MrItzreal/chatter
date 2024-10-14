@@ -1,7 +1,7 @@
-import ChatUI from "@components/Chat";
+import Chat from "@components/Chat";
 
-const ChatMessages = () => {
-  return <ChatUI />;
+const ChatUI = () => {
+  return <Chat />;
 };
 
-export default ChatMessages;
+export default ChatUI;

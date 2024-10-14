@@ -1,5 +1,5 @@
-const ChatUI = () => {
-  return <div>Chat UI</div>;
+const Chat = () => {
+  return <div>Chat......</div>;
 };
 
-export default ChatUI;
+export default Chat;
