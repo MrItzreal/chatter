@@ -1,8 +1,8 @@
-import React from "react";
-import SignIn from "@/components/SignIn";
+// import SignIn from "@/components/SignIn";
+import ChatSettings from "@components/ChatSettings";
 
 const Home = () => {
-  return <SignIn />;
+  return <ChatSettings />;
 };
 
 export default Home;
