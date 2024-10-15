@@ -1,7 +1,7 @@
-import Chat from "@components/Chat";
+import ChatApp from "@components/ChatApp";
 
 const ChatUI = () => {
-  return <Chat />;
+  return <ChatApp />;
 };
 
 export default ChatUI;
