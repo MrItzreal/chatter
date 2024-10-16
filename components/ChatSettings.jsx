@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ThemeIcon, GitHubIcon, DeleteIcon, LogoutIcon } from "@utils/svgfuncs";
+import ChatList from "./ChatList";
 
 const ChatSettings = () => {
   const menuItems = [
@@ -32,6 +33,7 @@ const ChatSettings = () => {
             {/* Placeholder for additional bottom icon if needed */}
           </div>
         </div>
+        <ChatList />
       </div>
     </div>
   );
