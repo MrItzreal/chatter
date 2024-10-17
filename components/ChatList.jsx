@@ -40,7 +40,7 @@ const ChatList = () => {
                 onBlur={toggleEdit}
               />
             ) : (
-              <p className="flex-grow flex items-center justify-center sm:justify-normal text-white text-sm ">
+              <p className="flex-grow flex items-center justify-center sm:justify-normal text-white text-sm font-extrabold italic">
                 {status || "What's on your mind?"}
               </p>
             )}
@@ -48,7 +48,7 @@ const ChatList = () => {
               onClick={toggleEdit}
               className="text-white hover:text-gray-200 flex-shrink-0"
             >
-              <EditPencil className="fill-white w-5 h-5" />
+              <EditPencil className="relative right-2 w-6 h-6 fill-slate-200 transition-all duration-300 hover:scale-110 hover:opacity-80 " />
             </button>
           </div>
         </div>
