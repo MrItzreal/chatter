@@ -30,7 +30,7 @@ const ChatList = () => {
   };
 
   return (
-    <div className="bg-sky-600 border-2 flex flex-col flex-grow p-3">
+    <div className="bg-sky-600 border-2 flex flex-col flex-grow p-4">
       <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 mb-4">
         <Image
           src="/assets/images/placeholder.jpg"
@@ -86,7 +86,7 @@ const ChatList = () => {
         {chats.map((chat) => (
           <div
             key={chat.id}
-            className="flex items-center border-2 rounded-md w-full h-16 mb-2 p-3 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
+            className="flex items-center border-2 rounded-md h-14 mb-2 p-3 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
           >
             <div className="text-white">
               <h4 className="font-bold italic text-base">{chat.name}</h4>

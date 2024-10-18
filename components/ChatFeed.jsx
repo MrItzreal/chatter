@@ -1,36 +1,55 @@
 "use client";
 import { useState } from "react";
 import { SendSVG } from "@utils/svgfuncs";
-const ChatFeed = () => {
-  const [send, setSend] = useState("");
-  const sendMessage = (e) => {
-    setSend(e.target.value);
-  };
-  return (
-    <div className="bg-sky-600 border-2 rounded-r-lg p-3">
-      <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 mb-4">
 
-        <div className="flex flex-col font-bold flex-grow w-full sm:w-auto">
-          <h2 className="flex items-center justify-center sm:justify-normal text-white text-xl sm:text-2xl font-bold mb-2">
-            Richter Belmont
-          </h2>
-          <hr className="w-full" />
-        </div>
+const ChatFeed = () => {
+  const [message, setMessage] = useState("");
+
+  const handleMessageChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const handleSendMessage = () => {
+    // TODO: Implement send message functionality
+    console.log("Sending message:", message);
+    setMessage("");
+  };
+
+  return (
+    <div className="bg-sky-600 border-2 rounded-r-lg flex flex-col px-36">
+      {/* Header */}
+      <div className="p-4 border-b-2 border-sky-700">
+        <h2 className="text-white text-xl text-center sm:text-2xl font-bold">
+          Richter Belmont
+        </h2>
       </div>
-      {/* NEW CHAT BTN */}
-      <div className="flex justify-center">
-        <input
-          type="text"
-          className="border-2 rounded-xl max-w-full font-bold text-md text-black mb-2"
-          placeholder="Send a message..."
-          value={send}
-          onChange={sendMessage}
-        ></input>
-        <button className="flex justify-center items-center border-2 rounded-full   mb-4 text-white transition-all duration-300 hover:bg-sky-700 hover:scale-105">
-          <SendSVG className="w-5 h-5 fill-white" />
-        </button>
+
+      {/* Chat Messages Area */}
+      <div className="flex-grow p-4 overflow-y-auto">
+        {/* TODO: Add chat messages here */}
+        <p className="text-white text-center italic">No messages yet</p>
+      </div>
+
+      {/* Message Input Area */}
+      <div className="p-4 border-t-2 border-sky-700">
+        <div className="flex items-center bg-white rounded-full overflow-hidden">
+          <input
+            type="text"
+            className="flex-grow px-4 py-2 w-96 outline-none"
+            placeholder="Type a message..."
+            value={message}
+            onChange={handleMessageChange}
+          />
+          <button
+            onClick={handleSendMessage}
+            className="p-2 bg-sky-700 hover:bg-sky-800 transition-colors duration-300"
+          >
+            <SendSVG className="w-6 h-6 fill-white" />
+          </button>
+        </div>
       </div>
     </div>
   );
 };
+
 export default ChatFeed;
