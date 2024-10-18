@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { EditPencil } from "@utils/svgfuncs";
+import { EditPencil, PlusSign } from "@utils/svgfuncs";
 
 const ChatList = () => {
   const [status, setStatus] = useState("");
@@ -48,14 +48,26 @@ const ChatList = () => {
               onClick={toggleEdit}
               className="text-white hover:text-gray-200 flex-shrink-0"
             >
-              <EditPencil className="relative right-2 w-6 h-6 fill-slate-200 transition-all duration-300 hover:scale-110 hover:opacity-80 " />
+              <EditPencil className="flex justify-end relative right-2 w-6 h-6 m-2 fill-slate-200 transition-all duration-300 hover:scale-110 hover:opacity-80" />
             </button>
           </div>
         </div>
       </div>
-      {/* Placeholder for conversation list */}
-      <div className="mt-4 text-white">
-        <p>Conversations will be displayed here</p>
+
+      {/* NEW CHAT BTN */}
+      <div className="flex justify-center mt-2 text-white">
+        <button className="flex justify-center items-center border-2 rounded-2xl w-32 transition-all duration-300 hover:scale-110 hover:opacity-80">
+          <p className="font-bold italic text-base">New Chat</p>
+          <div className="text-white hover:text-gray-200">
+            <PlusSign className="relative left-2 w-5 h-5 fill-white scale-110" />
+          </div>
+        </button>
+      </div>
+      {/* CHAT LIST */}
+      <div>
+        <div>
+          <div></div>
+        </div>
       </div>
     </div>
   );
