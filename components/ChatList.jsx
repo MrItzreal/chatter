@@ -63,10 +63,18 @@ const ChatList = () => {
           </div>
         </button>
       </div>
+
+      <p className="flex flex-col justify-start mt-4 font-bold text-base text-white">
+        Chat Lists:
+      </p>
+
       {/* CHAT LIST */}
-      <div>
-        <div>
-          <div></div>
+      <div className="flex justify-start mt-2 text-white">
+        <div className="flex justify-center items-center border-2 rounded-md w-full h-16 transition-all duration-300 hover:bg-slate-300  cursor-pointer">
+          <div className="text-white hover:text-gray-700">
+            <h1 className="font-bold italic text-base">Richter Belmont</h1>
+            <p>Lorem ipsum dolor</p>
+          </div>
         </div>
       </div>
     </div>
