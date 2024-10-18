@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ThemeIcon, GitHubIcon, DeleteIcon, LogoutIcon } from "@utils/svgfuncs";
 import ChatList from "./ChatList";
+import ChatFeed from "./ChatFeed";
 
 const ChatSettings = () => {
   const menuItems = [
@@ -34,6 +35,7 @@ const ChatSettings = () => {
           </div>
         </div>
         <ChatList />
+        <ChatFeed />
       </div>
     </div>
   );
