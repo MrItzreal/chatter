@@ -16,7 +16,7 @@ const ChatFeed = () => {
   };
 
   return (
-    <div className="bg-sky-600 border-2 rounded-r-lg flex flex-col px-36">
+    <div className="bg-sky-600 border-2 rounded-r-lg flex flex-col">
       {/* Header */}
       <div className="p-4 border-b-2 border-sky-700">
         <h2 className="text-white text-xl text-center sm:text-2xl font-bold">

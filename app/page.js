@@ -1,8 +1,8 @@
 // import SignIn from "@/components/SignIn";
-import ChatSettings from "@components/ChatSettings";
+import ChatApp from "@components/ChatApp";
 
 const Home = () => {
-  return <ChatSettings />;
+  return <ChatApp />;
 };
 
 export default Home;

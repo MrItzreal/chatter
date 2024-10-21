@@ -30,7 +30,7 @@ const ChatList = () => {
   };
 
   return (
-    <div className="bg-sky-600 border-2 flex flex-col flex-grow p-4">
+    <div className="bg-sky-600 border-2 flex flex-col p-4">
       <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 mb-4">
         <Image
           src="/assets/images/placeholder.jpg"
@@ -39,22 +39,22 @@ const ChatList = () => {
           height={60}
           className="rounded-full object-contain"
         />
-        <div className="flex flex-col font-bold flex-grow w-full sm:w-auto">
+        <div className="flex flex-col font-bold flex-grow">
           <h2 className="flex items-center justify-center sm:justify-normal text-white text-xl sm:text-2xl font-bold mb-2">
             Alucard Tepes
           </h2>
-          <div className="flex items-center w-full relative">
+          <div className="flex items-center relative">
             {isEditing ? (
               <input
                 type="text"
-                className="w-full border-2 sm:border-4 border-double rounded outline-none text-xs sm:text-sm px-2 py-1"
+                className=" border-2 sm:border-4 border-double rounded outline-none text-xs sm:text-sm px-2 py-1"
                 placeholder="Share an update..."
                 value={status}
                 onChange={handleStatusChange}
                 onBlur={toggleEdit}
               />
             ) : (
-              <p className="w-full text-center sm:text-left text-white text-sm font-extrabold italic">
+              <p className="text-center sm:text-left text-white text-sm font-extrabold italic">
                 {status || "What's on your mind?"}
               </p>
             )}
@@ -72,7 +72,7 @@ const ChatList = () => {
       <div className="flex justify-center">
         <button
           onClick={handleNewChat}
-          className="flex justify-center items-center border-2 rounded-2xl w-2/3  mb-4 text-white transition-all duration-300 hover:bg-sky-700 hover:scale-105"
+          className="flex justify-center items-center border-2 rounded-full h-7 p-3 mb-4 text-white transition-all duration-300 hover:bg-sky-700 hover:scale-105"
         >
           <p className="font-bold italic text-base mr-2">New Chat</p>
           <PlusSign className="w-5 h-5 fill-white" />
@@ -86,7 +86,7 @@ const ChatList = () => {
         {chats.map((chat) => (
           <div
             key={chat.id}
-            className="flex items-center border-2 rounded-md h-14 mb-2 p-3 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
+            className="flex items-center border-2 rounded-md mb-2 p-2 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
           >
             <div className="text-white">
               <h4 className="font-bold italic text-base">{chat.name}</h4>
