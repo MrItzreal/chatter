@@ -30,7 +30,7 @@ const ChatList = () => {
   };
 
   return (
-    <div className="bg-sky-600 border-2 flex flex-col p-4">
+    <div className="bg-sky-600 border-2 md:flex flex-col p-4 hidden h-full">
       <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 mb-4">
         <Image
           src="/assets/images/placeholder.jpg"
@@ -41,7 +41,7 @@ const ChatList = () => {
         />
         <div className="flex flex-col font-bold flex-grow">
           <h2 className="flex items-center justify-center sm:justify-normal text-white text-xl sm:text-2xl font-bold mb-2">
-            Alucard Tepes
+            LemonSqueeze
           </h2>
           <div className="flex items-center relative">
             {isEditing ? (
@@ -82,7 +82,7 @@ const ChatList = () => {
       {/* CHAT LIST */}
       <h3 className="font-bold text-lg text-white mb-2">Chat Lists:</h3>
 
-      <div className="flex-grow overflow-y-auto h-32 no-scrollbar">
+      <div className="flex-grow overflow-y-auto no-scrollbar">
         {chats.map((chat) => (
           <div
             key={chat.id}
