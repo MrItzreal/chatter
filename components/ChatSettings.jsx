@@ -26,7 +26,7 @@ const ChatSettings = () => {
           <div className="mt-28 space-y-6">
             {menuItems.map((item, index) => (
               <div key={index} className="group cursor-pointer">
-                <item.Icon className="w-9 h-9 fill-slate-200 transition-all duration-300 group-hover:scale-110 group-hover:opacity-80" />
+                <item.Icon className="w-8 h-8 fill-slate-200 transition-all duration-300 group-hover:scale-110 group-hover:opacity-80" />
               </div>
             ))}
           </div>
