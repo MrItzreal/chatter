@@ -30,7 +30,7 @@ const ChatList = () => {
   };
 
   return (
-    <div className="bg-sky-600 border-2 md:flex flex-col p-4 hidden h-full">
+    <div className="bg-sky-600 border-2 flex flex-col p-4  h-full">
       <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 mb-4">
         <Image
           src="/assets/images/placeholder.jpg"
