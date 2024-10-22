@@ -2,9 +2,8 @@
 import { useState } from "react";
 import { SendSVG } from "@utils/svgfuncs";
 import { Menu, X } from "@utils/svgfuncs";
-import ChatList from "./ChatList";
 
-const ChatFeed = () => {
+const ChatFeed = ({ isVisible, toggleNavbar }) => {
   const [message, setMessage] = useState("");
 
   const handleMessageChange = (e) => {
@@ -17,13 +16,6 @@ const ChatFeed = () => {
     setMessage("");
   };
 
-  //Toggles mobile navigation
-  const [toggleDropdown, setToggleDropdown] = useState(false);
-
-  //Toggles navigation bar icons.
-  const toggleNavbar = () => {
-    setToggleDropdown(!toggleDropdown);
-  };
   return (
     <div className="bg-sky-600 border-2 rounded-r-lg flex flex-col sm:px-24 px-0 sm:h-full h-screen">
       {/* Header */}
@@ -38,17 +30,12 @@ const ChatFeed = () => {
           onClick={toggleNavbar}
           className="sm:hidden absolute top-5 flex items-center"
         >
-          {toggleDropdown ? (
+          {isVisible ? (
             <X className="h-9 w-9 fill-white" />
           ) : (
             <Menu className="h-9 w-9 fill-white" />
           )}
         </button>
-        {toggleDropdown && (
-          <div className="relative w-full z-50">
-            <ChatList />
-          </div>
-        )}
       </header>
 
       {/* Chat Messages Area */}
