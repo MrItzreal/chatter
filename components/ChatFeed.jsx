@@ -39,7 +39,7 @@ const ChatFeed = ({ isVisible, toggleNavbar }) => {
       </header>
 
       {/* Chat Messages Area */}
-      <main className="flex-grow p-4 overflow-y-auto">
+      <main className="flex-grow p-4 overflow-y-auto no-scrollbar">
         {/* TODO: Add chat messages here */}
         <p className="text-white text-center italic">No messages yet</p>
       </main>
