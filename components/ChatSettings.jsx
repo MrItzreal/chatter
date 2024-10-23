@@ -12,7 +12,7 @@ const ChatSettings = () => {
     { Icon: LogoutIcon, alt: "Log Out" },
   ];
   return (
-    <div className="flex  justify-center items-center rounded-lg shadow-lg">
+    <div className="flex justify-center items-center rounded-lg shadow-lg">
       <div className="bg-sky-600 border-2 rounded-l-lg p-2 flex flex-col items-center h-full">
         <div className="mb-8">
           <Image
