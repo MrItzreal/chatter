@@ -1,6 +1,7 @@
 ## Chatter
 
 **What is Chatter?**
+Chat application.
 
 ### Key Features
 
