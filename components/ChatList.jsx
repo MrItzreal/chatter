@@ -40,7 +40,7 @@ const ChatList = () => {
         />
         <div className="flex flex-col w-full">
           <h2 className="text-white text-xl font-bold text-center mb-2">
-            LemonSqueeze
+            Alucard Tepes
           </h2>
           <div className="flex items-center justify-center gap-2">
             {isEditing ? (

@@ -26,6 +26,28 @@ const handler = NextAuth({
           //3-Identifies which user is logged in
         },
       },
+      async signIn({ profile }) {
+        try {
+          await connectToDB();
+
+          //Checks if "username" exists:
+          const userExists = await User.findOne({
+            username: profile.username,
+          });
+
+          //If "username" does not exist, creates new one
+          if (!userExists) {
+            await User.create({
+              username: profile.username.replace(" ", "").toLowerCase(),
+              image: profile.image,
+              password: profile.password,
+            });
+          }
+        } catch (err) {
+          console.log(err);
+          return false;
+        }
+      },
       async authorize(credentials, req) {
         try {
           await connectToDB();
