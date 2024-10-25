@@ -19,6 +19,7 @@ const handler = NextAuth({
             username: session.user.name,
           });
           session.user.id = sessionUser._id.toString();
+          session.user.username = sessionUser.username;
           return session;
 
           //1-Gets current user

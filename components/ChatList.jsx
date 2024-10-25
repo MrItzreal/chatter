@@ -2,9 +2,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import { EditPencil, PlusSign } from "@utils/svgfuncs";
+import { useSession } from "next-auth/react";
 
 const ChatList = () => {
-  const [status, setStatus] = useState("");
+  const { data: session, status } = useSession();
+
+  const [update, setUpdate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [chats, setChats] = useState([
     { id: 1, name: "Richter Belmont", lastMessage: "Lorem ipsum dolor" },
@@ -12,7 +15,7 @@ const ChatList = () => {
   ]);
 
   const handleStatusChange = (e) => {
-    setStatus(e.target.value);
+    setUpdate(e.target.value);
   };
 
   const toggleEdit = () => {
@@ -38,6 +41,7 @@ const ChatList = () => {
           height={80}
           className="rounded-full object-contain"
         />
+
         <div className="flex flex-col w-full">
           <h2 className="text-white text-xl font-bold text-center mb-2">
             Alucard Tepes
@@ -48,13 +52,13 @@ const ChatList = () => {
                 type="text"
                 className="border-2 border-double rounded outline-none text-sm px-2 py-1 w-full"
                 placeholder="Share an update..."
-                value={status}
+                value={update}
                 onChange={handleStatusChange}
                 onBlur={toggleEdit}
               />
             ) : (
               <p className="text-white text-sm font-extrabold italic">
-                {status || "What's on your mind?"}
+                {update || "What's on your mind?"}
               </p>
             )}
             <button
