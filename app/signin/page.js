@@ -22,9 +22,9 @@ const SignInPage = () => {
       });
       if (res.ok) {
         router.push("/chat");
-        toast.success("Welcome Back!");
+        toast.success(`Welcome Back: ${username}.`);
       } else {
-        toast.error("Hmmmm, are you sure username/password are correct?");
+        toast.error("Are Username/Password correct?");
       }
     } catch (error) {
       console.log(error);
