@@ -6,14 +6,12 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignInPage = () => {
-  const router = useRouter(); //Initialized the router.
-  //NOTE: adding a state for every field in your form is good practice.
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const fetchUser = async (e) => {
     e.preventDefault();
-
     try {
       const res = await fetch("http://localhost:3000/api/login", {
         method: "POST",
@@ -21,6 +19,9 @@ const SignInPage = () => {
         body: JSON.stringify({ username, password }),
       });
       if (res.ok) {
+        // Store username in localStorage
+        localStorage.setItem("chatUsername", username);
+
         router.push("/chat");
         toast.success(`Welcome Back: ${username}.`);
       } else {
@@ -30,6 +31,7 @@ const SignInPage = () => {
       console.log(error);
     }
   };
+
   return (
     <SignIn
       username={username}
