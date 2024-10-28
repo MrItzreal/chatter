@@ -1,24 +1,17 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { EditPencil, PlusSign } from "@utils/svgfuncs";
+import { useSession } from "next-auth/react";
 
 const ChatList = () => {
+  const { data: session, status } = useSession();
   const [update, setUpdate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [username, setUsername] = useState("");
   const [chats, setChats] = useState([
     { id: 1, name: "Richter Belmont", lastMessage: "Lorem ipsum dolor" },
     { id: 2, name: "Maria Renard", lastMessage: "Sit amet consectetur" },
   ]);
-
-  useEffect(() => {
-    // Get username from localStorage when component mounts
-    const storedUsername = localStorage.getItem("chatUsername");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, []);
 
   const handleStatusChange = (e) => {
     setUpdate(e.target.value);
@@ -39,7 +32,7 @@ const ChatList = () => {
 
   return (
     <div className="bg-sky-600 border-2 border-l-0 flex flex-col p-4 sm:w-[280px] flex-1">
-      {username && (
+      {status === "authenticated" && session?.user && (
         <div className="flex flex-col items-center gap-3 mb-4">
           <Image
             src="/assets/images/placeholder.jpg"
@@ -50,7 +43,7 @@ const ChatList = () => {
           />
           <div className="flex flex-col w-full">
             <h2 className="text-white text-xl font-bold text-center mb-2">
-              {username}
+              {session.user.username}
             </h2>
             <div className="flex items-center justify-center gap-2">
               {isEditing ? (

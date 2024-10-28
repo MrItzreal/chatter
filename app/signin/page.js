@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import SignIn from "@/components/SignIn";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,18 +11,16 @@ const SignInPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const fetchUser = async (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:3000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+      const res = await signIn("credentials", {
+        username,
+        password,
+        redirect: false,
       });
-      if (res.ok) {
-        // Store username in localStorage
-        localStorage.setItem("chatUsername", username);
 
+      if (res?.ok) {
         router.push("/chat");
         toast.success(`Welcome Back: ${username}.`);
       } else {
@@ -38,7 +37,7 @@ const SignInPage = () => {
       setUsername={setUsername}
       password={password}
       setPassword={setPassword}
-      fetchUser={fetchUser}
+      fetchUser={handleSignIn}
     />
   );
 };
