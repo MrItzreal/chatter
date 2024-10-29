@@ -66,7 +66,7 @@ const handler = NextAuth({
     },
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt", //tells NextAuth to use JWT-based sessions over DB sessions
   },
 });
 

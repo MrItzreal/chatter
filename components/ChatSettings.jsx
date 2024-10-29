@@ -4,8 +4,7 @@ import {
   ThemeIcon,
   GitHubIcon,
   DeleteIcon,
-  LogoutIcon,
-  Menu,
+  SignOutIcon,
   X,
 } from "@utils/svgfuncs";
 
@@ -14,7 +13,7 @@ const ChatSettings = ({ isVisible, toggleNavbar }) => {
     { Icon: ThemeIcon, alt: "Theme" },
     { Icon: GitHubIcon, alt: "GitHub" },
     { Icon: DeleteIcon, alt: "Delete" },
-    { Icon: LogoutIcon, alt: "Log Out" },
+    { Icon: SignOutIcon, alt: "Log Out" },
   ];
 
   return (
