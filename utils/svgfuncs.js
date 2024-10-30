@@ -84,6 +84,7 @@ export const SignOutIcon = ({ className }) => {
     </button>
   );
 };
+
 // EditPencilSVG
 export const EditPencil = ({ className }) => (
   <svg
