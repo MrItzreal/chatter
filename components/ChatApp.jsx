@@ -1,10 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
+import { io } from "socket.io-client";
 import ChatSettings from "./ChatSettings";
 import ChatList from "./ChatList";
 import ChatFeed from "./ChatFeed";
 
 const ChatApp = () => {
+  const [socket, setSocket] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
@@ -13,6 +15,21 @@ const ChatApp = () => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Establish Socket.IO connection
+  useEffect(() => {
+    const newSocket = io("http://localhost:3001");
+    setSocket(newSocket);
+    console.log("Socket connected!");
+
+    return () => {
+      // Clean up the socket connection when the component unmounts
+      if (newSocket) {
+        newSocket.close();
+        console.log("Socket disconnected!");
+      }
+    };
   }, []);
 
   const toggleNavbar = () => {
@@ -37,7 +54,7 @@ const ChatApp = () => {
                 isVisible={toggleDropdown}
                 toggleNavbar={toggleNavbar}
               />
-              <ChatList />
+              <ChatList socket={socket} />
             </div>
           </div>
 
@@ -49,7 +66,11 @@ const ChatApp = () => {
               ${isSmallScreen ? "w-full" : "ml-auto"}
             `}
           >
-            <ChatFeed isVisible={toggleDropdown} toggleNavbar={toggleNavbar} />
+            <ChatFeed
+              isVisible={toggleDropdown}
+              toggleNavbar={toggleNavbar}
+              socket={socket}
+            />
           </div>
         </div>
       </div>
