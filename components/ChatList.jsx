@@ -4,7 +4,7 @@ import Image from "next/image";
 import { EditPencil, PlusSign } from "@utils/svgfuncs";
 import { useSession } from "next-auth/react";
 
-const ChatList = () => {
+const ChatList = ({ socket }) => {
   const { data: session, status } = useSession();
   const [update, setUpdate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -22,12 +22,18 @@ const ChatList = () => {
   };
 
   const handleNewChat = () => {
+    socket.emit("newChat");
+
     const newChat = {
       id: chats.length + 1,
       name: `New Chat ${chats.length + 1}`,
       lastMessage: "Start a new conversation",
     };
     setChats([newChat, ...chats]);
+  };
+
+  const handleChatSelect = (chatId) => {
+    socket.emit("chatSelected", chatId);
   };
 
   return (
@@ -86,6 +92,7 @@ const ChatList = () => {
           <div
             key={chat.id}
             className="flex items-center border-2 rounded-md mb-2 p-2 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
+            onClick={() => handleChatSelect(chat.id)}
           >
             <div className="text-white">
               <h4 className="font-bold italic text-base">{chat.name}</h4>
