@@ -9,8 +9,8 @@ const ChatList = ({ socket }) => {
   const [update, setUpdate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [chats, setChats] = useState([
-    { id: 1, name: "Richter Belmont", lastMessage: "Lorem ipsum dolor" },
-    { id: 2, name: "Maria Renard", lastMessage: "Sit amet consectetur" },
+    { id: 1, username: "Richter Belmont", lastMessage: "Lorem ipsum dolor" },
+    { id: 2, username: "Maria Renard", lastMessage: "Sit amet consectetur" },
   ]);
 
   const handleStatusChange = (e) => {
@@ -26,14 +26,15 @@ const ChatList = ({ socket }) => {
 
     const newChat = {
       id: chats.length + 1,
-      name: `New Chat ${chats.length + 1}`,
-      lastMessage: "Start a new conversation",
+      username: `Username ${chats.length + 1}`,
+      lastMessage: "Some conversation taking place...",
     };
     setChats([newChat, ...chats]);
   };
 
   const handleChatSelect = (chatId) => {
     socket.emit("chatSelected", chatId);
+    console.log(handleChatSelect, chatId);
   };
 
   return (
@@ -92,10 +93,10 @@ const ChatList = ({ socket }) => {
           <div
             key={chat.id}
             className="flex items-center border-2 rounded-md mb-2 p-2 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
-            onClick={() => handleChatSelect(chat.id)}
+            onClick={() => handleChatSelect(chat.username)}
           >
             <div className="text-white">
-              <h4 className="font-bold italic text-base">{chat.name}</h4>
+              <h4 className="font-bold italic text-base">{chat.username}</h4>
               <p className="text-sm truncate">{chat.lastMessage}</p>
             </div>
           </div>
