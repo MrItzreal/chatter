@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   await connectToDB();
 
   // Socket.IO Server Init
-  const socketServer = res.socket.server;
+  const socketServer = res.socket.server; //Exposes underlying HTTP server.
   if (!socketServer.io) {
     console.log("Initializing Socket.IO server...");
     const io = new Server(socketServer, {
