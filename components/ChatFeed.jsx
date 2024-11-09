@@ -42,6 +42,30 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket }) => {
     setNewMessage("");
   };
 
+  // Listen for messages
+  useEffect(() => {
+    if (socket) {
+      // Define listener
+      const handleMessages = (messages) => {
+        setMessages(messages);
+      };
+
+      // Attach listener
+      socket.on("messages", handleMessages);
+
+      // Cleanup function to remove listener on unmount
+      return () => {
+        socket.off("messages", handleMessages);
+      };
+    } else {
+      // Handle the case when there's no socket
+      if (socket && socket.close) {
+        socket.close();
+      }
+      console.log("Could not retrieve messages", messages);
+    }
+  }, [socket]);
+
   return (
     <div className="bg-sky-600 border-2 rounded-r-lg flex flex-col h-full">
       <header className="relative p-4 border-b-2 border-sky-700">
