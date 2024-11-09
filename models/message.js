@@ -8,6 +8,10 @@ const MessageSchema = new Schema(
       ref: "User", // Reference to the User model
       required: true,
     },
+    chatId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
     text: {
       type: String,
       required: true,
