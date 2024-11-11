@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { EditPencil, PlusSign } from "@utils/svgfuncs";
 import { useSession } from "next-auth/react";
@@ -8,10 +8,19 @@ const ChatList = ({ socket }) => {
   const { data: session, status } = useSession();
   const [update, setUpdate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [chats, setChats] = useState([
-    { id: 1, username: "Richter Belmont", lastMessage: "Lorem ipsum dolor" },
-    { id: 2, username: "Maria Renard", lastMessage: "Sit amet consectetur" },
-  ]);
+  const [chats, setChats] = useState([]);
+  const [allUsers, setAllUsers] = useState();
+
+  // Fetch Usernames
+  useEffect(() => {
+    const fetchUsernames = async () => {
+      const res = await fetch("/api/users");
+      const data = res.json();
+
+      setAllUsers(data);
+    };
+    fetchUsernames();
+  }, []);
 
   const handleStatusChange = (e) => {
     setUpdate(e.target.value);
@@ -32,9 +41,9 @@ const ChatList = ({ socket }) => {
     setChats([newChat, ...chats]);
   };
 
-  const handleChatSelect = (chatId) => {
-    socket.emit("chatSelected", chatId);
-    console.log(handleChatSelect, chatId);
+  const handleChatSelect = (chatId, username) => {
+    socket.emit("chatSelected", chatId, username);
+    console.log(handleChatSelect, chatId, username);
   };
 
   return (

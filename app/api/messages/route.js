@@ -28,10 +28,10 @@ export default async function handler(req, res) {
   io.on("connection", (socket) => {
     console.log("Client Connected");
 
-    socket.on("chatSelected", async (chatId) => {
+    socket.on("chatSelected", async (chatId, username) => {
       try {
         const messages = await Message.find({ chatId });
-        socket.emit("messages", messages);
+        socket.emit("messages", { messages, username });
       } catch (error) {
         console.error("Error Fetching Messages:", error);
       }
