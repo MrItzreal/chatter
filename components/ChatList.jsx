@@ -3,21 +3,29 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { EditPencil, PlusSign } from "@utils/svgfuncs";
 import { useSession } from "next-auth/react";
+import DropDownMenu from "./DropDownMenu";
 
 const ChatList = ({ socket }) => {
   const { data: session, status } = useSession();
   const [update, setUpdate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [chats, setChats] = useState([]);
-  const [allUsers, setAllUsers] = useState();
+  const [allUsers, setAllUsers] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Fetch Usernames
   useEffect(() => {
     const fetchUsernames = async () => {
-      const res = await fetch("/api/users");
-      const data = res.json();
-
-      setAllUsers(data);
+      try {
+        const res = await fetch("/api/users");
+        if (!res.ok) {
+          throw new Error("Failed to fetch usernames");
+        }
+        const data = await res.json();
+        setAllUsers(data);
+      } catch (error) {
+        console.error("Error fetching usernames:", error);
+      }
     };
     fetchUsernames();
   }, []);
@@ -30,20 +38,16 @@ const ChatList = ({ socket }) => {
     setIsEditing(!isEditing);
   };
 
-  const handleNewChat = () => {
-    socket.emit("newChat");
-
+  const handleNewChat = (username) => {
     const newChat = {
       id: chats.length + 1,
       username: `Username ${chats.length + 1}`,
       lastMessage: "Some conversation taking place...",
     };
     setChats([newChat, ...chats]);
-  };
-
-  const handleChatSelect = (chatId, username) => {
-    socket.emit("chatSelected", chatId, username);
-    console.log(handleChatSelect, chatId, username);
+    setIsDropdownOpen(!isDropdownOpen);
+    socket.emit("chatSelected", username);
+    console.log(handleNewChat, username);
   };
 
   return (
@@ -88,12 +92,15 @@ const ChatList = ({ socket }) => {
       )}
 
       <button
-        onClick={handleNewChat}
+        onClick={() => handleNewChat()}
         className="flex justify-center items-center border-2 rounded-full h-10 px-4 mb-4 text-white transition-all duration-300 hover:bg-sky-700 hover:scale-105"
       >
         <p className="font-bold italic text-base mr-2">New Chat</p>
         <PlusSign className="w-5 h-5 fill-white" />
       </button>
+
+      {/* Drop Down Menu */}
+      {isDropdownOpen && <DropDownMenu allUsers={allUsers} />}
 
       <h3 className="font-bold text-lg text-white mb-2">Chat Lists:</h3>
 
@@ -102,7 +109,6 @@ const ChatList = ({ socket }) => {
           <div
             key={chat.id}
             className="flex items-center border-2 rounded-md mb-2 p-2 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
-            onClick={() => handleChatSelect(chat.username)}
           >
             <div className="text-white">
               <h4 className="font-bold italic text-base">{chat.username}</h4>
