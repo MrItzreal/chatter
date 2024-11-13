@@ -9,12 +9,12 @@ const DropDownMenu = ({ allUsers, onUserSelect }) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
-  // Select Username from dropdown
+  // Select Username from dropdown menu
   const handleUserSelect = (username) => {
     onUserSelect(username);
   };
 
-  // Filter usernames based on search term
+  // Filter usernames based on letters
   const filteredUsernames = allUsers.filter((item) =>
     item.toLowerCase().includes(searchTerm)
   );

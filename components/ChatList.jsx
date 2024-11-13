@@ -30,18 +30,22 @@ const ChatList = ({ socket }) => {
     fetchUsernames();
   }, []);
 
+  // Updates update for user
   const handleStatusChange = (e) => {
     setUpdate(e.target.value);
   };
 
+  // Toggles the edit icon
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
 
+  // Toggles New Chat Btn to find users
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  // Creates new chat
   const handleNewChat = (username) => {
     if (!username) return;
 
