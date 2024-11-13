@@ -38,16 +38,23 @@ const ChatList = ({ socket }) => {
     setIsEditing(!isEditing);
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   const handleNewChat = (username) => {
+    if (!username) return;
+
     const newChat = {
       id: chats.length + 1,
-      username: `Username ${chats.length + 1}`,
-      lastMessage: "Some conversation taking place...",
+      username: username,
+      lastMessage:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium animi fugiat corrupti assumenda quo, aspernatur magnam pariatur alias non eaque labore a, at quibusdam quam blanditiis magni aperiam expedita quasi.",
     };
+
     setChats([newChat, ...chats]);
-    setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpen(false);
     socket.emit("chatSelected", username);
-    console.log(handleNewChat, username);
   };
 
   return (
@@ -92,7 +99,7 @@ const ChatList = ({ socket }) => {
       )}
 
       <button
-        onClick={() => handleNewChat()}
+        onClick={toggleDropdown}
         className="flex justify-center items-center border-2 rounded-full h-10 px-4 mb-4 text-white transition-all duration-300 hover:bg-sky-700 hover:scale-105"
       >
         <p className="font-bold italic text-base mr-2">New Chat</p>
@@ -100,17 +107,19 @@ const ChatList = ({ socket }) => {
       </button>
 
       {/* Drop Down Menu */}
-      {isDropdownOpen && <DropDownMenu allUsers={allUsers} />}
+      {isDropdownOpen && (
+        <DropDownMenu allUsers={allUsers} onUserSelect={handleNewChat} />
+      )}
 
       <h3 className="font-bold text-lg text-white mb-2">Chat Lists:</h3>
 
-      <div className="flex-1 overflow-y-auto no-scrollbar">
+      <div className="flex-1 overflow-y-auto overflow-x-auto no-scrollbar">
         {chats.map((chat) => (
           <div
             key={chat.id}
             className="flex items-center border-2 rounded-md mb-2 p-2 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
           >
-            <div className="text-white">
+            <div className="text-white max-w-32 overflow-x-auto no-scrollbar">
               <h4 className="font-bold italic text-base">{chat.username}</h4>
               <p className="text-sm truncate">{chat.lastMessage}</p>
             </div>
