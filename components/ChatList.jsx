@@ -5,7 +5,7 @@ import { EditPencil, PlusSign } from "@utils/svgfuncs";
 import { useSession } from "next-auth/react";
 import DropDownMenu from "./DropDownMenu";
 
-const ChatList = ({ socket }) => {
+const ChatList = ({ socket, chatSelect, onChatSelect }) => {
   const { data: session, status } = useSession();
   const [update, setUpdate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -46,7 +46,7 @@ const ChatList = ({ socket }) => {
   };
 
   // Creates new chat
-  const handleNewChat = (username) => {
+  const handleNewChat = (username, lastMessage) => {
     if (!username) return;
 
     const newChat = {
@@ -58,7 +58,7 @@ const ChatList = ({ socket }) => {
 
     setChats([newChat, ...chats]);
     setIsDropdownOpen(false);
-    socket.emit("chatSelected", username);
+    socket.emit("chatSelected", username, lastMessage);
   };
 
   return (
@@ -121,6 +121,7 @@ const ChatList = ({ socket }) => {
         {chats.map((chat) => (
           <div
             key={chat.id}
+            onClick={() => onChatSelect(chat.username, chat.lastMessage)}
             className="flex items-center border-2 rounded-md mb-2 p-2 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
           >
             <div className="text-white max-w-32 overflow-x-auto no-scrollbar">

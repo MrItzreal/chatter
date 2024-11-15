@@ -9,6 +9,7 @@ const ChatApp = () => {
   const [socket, setSocket] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [chatSelect, setChatSelect] = useState(null);
 
   useEffect(() => {
     setIsSmallScreen(window.innerWidth < 768);
@@ -40,6 +41,11 @@ const ChatApp = () => {
     setToggleDropdown(!toggleDropdown);
   };
 
+  // Selects chat to display from ChatList to ChatFeed
+  const handleChatSelect = (username, lastMessage) => {
+    setChatSelect({ username, lastMessage });
+  };
+
   return (
     <div className="container mx-auto px-4">
       <div className="max-w-7xl mx-auto h-[700px] my-8 sm:my-24 rounded-lg overflow-hidden shadow-2xl">
@@ -58,7 +64,11 @@ const ChatApp = () => {
                 isVisible={toggleDropdown}
                 toggleNavbar={toggleNavbar}
               />
-              <ChatList socket={socket} />
+              <ChatList
+                socket={socket}
+                chatSelect={chatSelect}
+                onChatSelect={handleChatSelect}
+              />
             </div>
           </div>
 
@@ -74,6 +84,7 @@ const ChatApp = () => {
               isVisible={toggleDropdown}
               toggleNavbar={toggleNavbar}
               socket={socket}
+              chatSelect={chatSelect}
             />
           </div>
         </div>

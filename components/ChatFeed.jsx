@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { SendSVG, Menu, X } from "@utils/svgfuncs";
 
-const ChatFeed = ({ isVisible, toggleNavbar, socket }) => {
+const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   const [messages, setMessages] = useState([]); //old messages
   const [newMessage, setNewMessage] = useState(""); //new messages
 
@@ -82,7 +82,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket }) => {
 
         <div className="text-center">
           <h1 className="text-white text-xl sm:text-2xl font-bold">
-            Richter Belmont
+            {chatSelect ? chatSelect.username : "Select a chat"}
           </h1>
           <p className="text-sm text-white italic font-extrabold">
             Slaying Vampires!
@@ -91,11 +91,9 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket }) => {
       </header>
 
       <main className="flex-1 p-4 overflow-y-auto no-scrollbar">
-        {messages.map((message, idx) => (
-          <p key={idx} className="text-white text-center italic">
-            {message}
-          </p>
-        ))}
+        <p className="text-white text-balance italic">
+          {chatSelect ? chatSelect.lastMessage : "No messages yet"}
+        </p>
       </main>
 
       <section className="p-4 border-t-2 border-sky-700">
