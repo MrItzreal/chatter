@@ -82,7 +82,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
 
         <div className="text-center">
           <h1 className="text-white text-xl sm:text-2xl font-bold">
-            {chatSelect ? chatSelect.username : "Select a chat"}
+            {chatSelect ? chatSelect.username : "Select A Chat"}
           </h1>
           <p className="text-sm text-white italic font-extrabold">
             Slaying Vampires!
@@ -91,8 +91,12 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
       </header>
 
       <main className="flex-1 p-4 overflow-y-auto no-scrollbar">
-        <p className="text-white text-balance italic">
-          {chatSelect ? chatSelect.lastMessage : "No messages yet"}
+        <p
+          className={`text-white text-balance italic ${
+            !chatSelect ? "text-center" : ""
+          }`}
+        >
+          {chatSelect ? chatSelect.lastMessage : "No Messages Yet"}
         </p>
       </main>
 
