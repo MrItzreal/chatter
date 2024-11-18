@@ -1,17 +1,27 @@
 "use client";
 import { useState, useEffect } from "react";
 import { SendSVG, Menu, X } from "@utils/svgfuncs";
+import { useSession } from "next-auth/react";
 
 const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   const [messages, setMessages] = useState([]); //old messages
   const [newMessage, setNewMessage] = useState(""); //new messages
+  const { data: session } = useSession();
 
   const handleMessageChange = (e) => {
     setNewMessage(e.target.value);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendMessage();
+      console.log("Message Sent!");
+    }
+  };
+
   useEffect(() => {
-    // Listen for incoming messages
+    // Listen for REAL-TIME messages
     if (socket) {
       socket.on("chat message", (message) => {
         if (message.sender && message.content && message.timestamp) {
@@ -32,17 +42,18 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   // Send New Messages
   const sendMessage = () => {
     const message = {
-      sender: _id, // or a unique user ID
+      senderId: session.user.id,
+      recipientUsername: chatSelect.username,
       content: newMessage,
       timestamp: new Date().toISOString(),
     };
 
-    socket.emit("chat message", message);
+    socket.emit("sendMessage", message);
     console.log("Sending message:", message);
     setNewMessage("");
   };
 
-  // Listen for messages
+  // Listen for OLDER/PREV messages
   useEffect(() => {
     if (socket) {
       // Define listener
@@ -108,6 +119,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
             placeholder="Type a message..."
             value={newMessage}
             onChange={handleMessageChange}
+            onKeyDown={handleKeyDown}
           />
           <button
             onClick={sendMessage}
