@@ -20,25 +20,6 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
     }
   };
 
-  useEffect(() => {
-    // Listen for REAL-TIME messages
-    if (socket) {
-      socket.on("chat message", (message) => {
-        if (message.sender && message.content && message.timestamp) {
-          setMessages((prevMessages) => [...prevMessages, message]);
-        } else {
-          console.log("Invalid structure received", message);
-        }
-      });
-    }
-    // Cleanup listener when component unmounts
-    return () => {
-      if (socket) {
-        socket.off("chat message");
-      }
-    };
-  }, [socket]);
-
   // Send New Messages
   const sendMessage = () => {
     const message = {
@@ -53,7 +34,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
     setNewMessage("");
   };
 
-  // Listen for OLDER/PREV messages
+  // Listen for Messages
   useEffect(() => {
     if (socket) {
       // Define listener
@@ -101,6 +82,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         </div>
       </header>
 
+      {/* Chat Feed */}
       <main className="flex-1 p-4 overflow-y-auto no-scrollbar">
         <p
           className={`text-white text-balance italic ${
@@ -111,6 +93,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         </p>
       </main>
 
+      {/* Send Text/Button */}
       <section className="p-4 border-t-2 border-sky-700">
         <div className="flex items-center bg-white rounded-full overflow-hidden max-w-3xl mx-auto">
           <input

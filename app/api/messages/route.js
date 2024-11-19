@@ -9,7 +9,12 @@ export default async function handler(req, res) {
   }
 
   // Connects To DB
-  await connectToDB();
+  try {
+    await connectToDB();
+  } catch (error) {
+    console.error("Error connecting to database:", error);
+    return res.status(500).json({ error: "Database connection error" });
+  }
 
   // Socket.IO Server Init
   const socketServer = res.socket.server; //Exposes underlying HTTP server.
@@ -28,12 +33,41 @@ export default async function handler(req, res) {
   io.on("connection", (socket) => {
     console.log("Client Connected");
 
-    socket.on("chatSelected", async (chatId, username) => {
+    socket.on("chatSelected", async (content, recipientUsername) => {
       try {
-        const messages = await Message.find({ chatId });
-        socket.emit("messages", { messages, username });
+        const messages = await Message.find({ content });
+        socket.emit("messages", { messages, recipientUsername });
       } catch (error) {
         console.error("Error Fetching Messages:", error);
+
+        if (socket) {
+          socket.emit("error", {
+            message: "An error occurred while fetching messages.",
+            details: error.message,
+          });
+        }
+      }
+    });
+
+    // sendMessage Event Handler:
+    socket.on("sendMessage", async (messageData) => {
+      try {
+        const newMessage = new Message({
+          sender: messageData.senderId,
+          recipientUsername: messageData.recipientUsername,
+          content: messageData.content,
+          timestamp: messageData.timestamp,
+        });
+        await newMessage.save();
+      } catch (error) {
+        console.error("Error saving or sending message:", error);
+
+        if (socket) {
+          socket.emit("error", {
+            message: "An error occurred while saving or sending your message.",
+            details: error.message,
+          });
+        }
       }
     });
 
@@ -42,6 +76,6 @@ export default async function handler(req, res) {
     });
   });
 
-  // Keep the response pending
+  // Keep the response pending needed for persistent Socket.IO connections.
   res.end();
 }

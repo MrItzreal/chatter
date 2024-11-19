@@ -46,19 +46,18 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
   };
 
   // Creates new chat
-  const handleNewChat = (username, lastMessage) => {
+  const handleNewChat = (username) => {
     if (!username) return;
 
     const newChat = {
       id: chats.length + 1,
       username: username,
-      lastMessage:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium animi fugiat corrupti assumenda quo, aspernatur magnam pariatur alias non eaque labore a, at quibusdam quam blanditiis magni aperiam expedita quasi.",
+      lastMessage: null,
     };
 
     setChats([newChat, ...chats]);
     setIsDropdownOpen(false);
-    socket.emit("chatSelected", username, lastMessage);
+    socket.emit("chatSelected", username);
   };
 
   return (
