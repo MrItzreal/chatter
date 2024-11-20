@@ -57,7 +57,13 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
 
     setChats([newChat, ...chats]);
     setIsDropdownOpen(false);
-    socket.emit("chatSelected", username);
+
+    // Only emit if socket is available
+    if (socket) {
+      socket.emit("chatSelected", username);
+    } else {
+      console.warn("Socket is not connected. Cannot emit chatSelected event.");
+    }
   };
 
   return (

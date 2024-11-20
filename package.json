@@ -11,9 +11,12 @@
   "dependencies": {
     "@tsparticles/react": "^3.0.0",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "http": "^0.0.1-security",
     "mongodb": "^6.9.0",
     "mongoose": "^8.6.3",
-    "next": "14.2.11",
+    "next": "^14.2.11",
     "next-auth": "^4.24.8",
     "react": "^18",
     "react-dom": "^18",

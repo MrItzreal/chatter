@@ -8,6 +8,10 @@ const MessageSchema = new Schema(
       ref: "User", // Reference to the User model
       required: true,
     },
+    senderUsername: {
+      type: String,
+      required: true,
+    },
     recipientUsername: {
       type: String,
       required: true,

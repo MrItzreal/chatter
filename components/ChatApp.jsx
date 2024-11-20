@@ -25,13 +25,20 @@ const ChatApp = () => {
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
     });
-    setSocket(newSocket);
-    console.log("Socket connected!");
+
+    newSocket.on("connect", () => {
+      console.log("Socket connected successfully!");
+      setSocket(newSocket);
+    });
+
+    newSocket.on("connect_error", (error) => {
+      console.error("Socket connection error:", error);
+    });
 
     return () => {
       // Clean up the socket connection when the component unmounts
       if (newSocket) {
-        newSocket.close();
+        newSocket.disconnect();
         console.log("Socket disconnected!");
       }
     };

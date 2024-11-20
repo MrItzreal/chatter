@@ -22,8 +22,11 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
 
   // Send New Messages
   const sendMessage = () => {
+    if (!socket || !chatSelect || !newMessage.trim()) return;
+
     const message = {
       senderId: session.user.id,
+      senderUsername: session.user.username,
       recipientUsername: chatSelect.username,
       content: newMessage,
       timestamp: new Date().toISOString(),
@@ -36,8 +39,10 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
 
   // Listen for Messages
   useEffect(() => {
-    if (socket) {
+    if (socket && chatSelect) {
       // Define listener
+      socket.emit("chatSelected", chatSelect.username);
+
       const handleMessages = (messages) => {
         setMessages(messages);
       };
@@ -49,14 +54,8 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
       return () => {
         socket.off("messages", handleMessages);
       };
-    } else {
-      // Handle the case when there's no socket
-      if (socket && socket.close) {
-        socket.close();
-      }
-      console.log("Could not retrieve messages", messages);
     }
-  }, [socket]);
+  }, [socket, chatSelect]);
 
   return (
     <div className="bg-sky-600 border-2 rounded-r-lg flex flex-col h-full">
@@ -84,13 +83,17 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
 
       {/* Chat Feed */}
       <main className="flex-1 p-4 overflow-y-auto no-scrollbar">
-        <p
-          className={`text-white text-balance italic ${
-            !chatSelect ? "text-center" : ""
-          }`}
-        >
-          {chatSelect ? chatSelect.lastMessage : "No Messages Yet"}
-        </p>
+        {messages.map((message) => (
+          <div className="">
+            <p
+              className={`text-white text-balance italic ${
+                !chatSelect ? "text-center" : ""
+              }`}
+            >
+              {message.content}
+            </p>
+          </div>
+        ))}
       </main>
 
       {/* Send Text/Button */}
