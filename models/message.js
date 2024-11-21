@@ -1,10 +1,13 @@
-import { Schema, model, models } from "mongoose";
+import mongoose from "mongoose";
 
-// Model for user form
+// Destructure Schema, model, and models from mongoose
+const { Schema, model, models } = mongoose;
+
+// Define your schema for the Message model
 const MessageSchema = new Schema(
   {
     sender: {
-      type: Schema.Types.ObjectId, //unique ID of user who sent msg
+      type: Schema.Types.ObjectId, // Unique ID of the user who sent the message
       ref: "User", // Reference to the User model
       required: true,
     },
@@ -35,6 +38,7 @@ const MessageSchema = new Schema(
   { timestamps: true }
 );
 
+// Create or use the existing Message model
 const Message = models.Message || model("Message", MessageSchema);
 
 export default Message;

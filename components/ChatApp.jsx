@@ -20,7 +20,7 @@ const ChatApp = () => {
 
   // Establish Socket.IO connection
   useEffect(() => {
-    const newSocket = io("http://localhost:3001", {
+    const newSocket = io({
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,

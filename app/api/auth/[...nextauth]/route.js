@@ -1,11 +1,11 @@
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import { default as CredentialsProvider } from "next-auth/providers/credentials";
 import User from "@models/user";
 import { connectToDB } from "@utils/database";
 import bcrypt from "bcrypt";
 
-// NextAuth Configuration: This verifies the user credentials.
-const handler = NextAuth({
+// Define the auth options separately
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -13,11 +13,10 @@ const handler = NextAuth({
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         try {
           await connectToDB();
 
-          // Safety check for credentials
           if (!credentials?.username || !credentials?.password) {
             return null;
           }
@@ -35,7 +34,6 @@ const handler = NextAuth({
             return null;
           }
 
-          // Return specific user data
           return {
             id: user._id.toString(),
             name: user.username,
@@ -52,7 +50,7 @@ const handler = NextAuth({
   callbacks: {
     async session({ session, token }) {
       if (session?.user) {
-        session.user.id = token.sub; // 'sub' is the standard JWT field for user ID
+        session.user.id = token.sub;
         session.user.username = token.name;
       }
       return session;
@@ -66,9 +64,12 @@ const handler = NextAuth({
     },
   },
   session: {
-    strategy: "jwt", //tells NextAuth to use JWT-based sessions over DB sessions
+    strategy: "jwt",
   },
-});
+};
+
+// Create the handler using the auth options
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
 
