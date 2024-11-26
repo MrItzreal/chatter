@@ -1,15 +1,13 @@
-import express from "express";
-import http from "http";
-import { Server } from "socket.io";
-import { connectToDB } from "./utils/database.js";
-import Message from "./models/message.js";
-import cors from "cors"; //Cross-Origin Resource Sharing
+const express = require("express");
+const http = require("http");
+const connectToDB = require("../utils/database.js");
+const Message = require("../models/message.js");
 
 const app = express();
-app.use(cors());
 const server = http.createServer(app);
 
 // Initialize Socket.IO server
+const { Server } = require("socket.io");
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000", // Frontend URL

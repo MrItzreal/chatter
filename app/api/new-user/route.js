@@ -1,4 +1,4 @@
-import { connectToDB } from "@utils/database";
+const connectToDB = require("../../../utils/database.js");
 import Registration from "@models/registration";
 
 export const POST = async (req, res) => {

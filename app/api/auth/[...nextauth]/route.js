@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
-import { default as CredentialsProvider } from "next-auth/providers/credentials";
-import User from "@models/user";
-import { connectToDB } from "@utils/database";
+import CredentialsProvider from "next-auth/providers/credentials";
+const User = require("../../../../models/user.js");
+const connectToDB = require("../../../../utils/database.js");
 import bcrypt from "bcrypt";
 
 // Define the auth options separately

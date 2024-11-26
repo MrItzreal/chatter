@@ -1,4 +1,4 @@
-import { connectToDB } from "@utils/database";
+const connectToDB = require("../../../utils/database.js");
 import User from "@models/user";
 
 export const GET = async (req) => {

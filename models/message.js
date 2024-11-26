@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 // Destructure Schema, model, and models from mongoose
 const { Schema, model, models } = mongoose;
@@ -41,4 +41,4 @@ const MessageSchema = new Schema(
 // Create or use the existing Message model
 const Message = models.Message || model("Message", MessageSchema);
 
-export default Message;
+module.exports = Message;

@@ -1,8 +1,10 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+
+require("dotenv").config();
 
 let isConnected = false; //Tracks connection status
 
-export const connectToDB = async () => {
+const connectToDB = async () => {
   mongoose.set("strictQuery", true); //Sets mongoose options
 
   if (isConnected) {
@@ -21,3 +23,6 @@ export const connectToDB = async () => {
     throw error;
   }
 };
+
+// Exporting the connectToDB function as a CommonJS module
+module.exports = connectToDB;
