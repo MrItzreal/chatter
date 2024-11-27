@@ -12,6 +12,7 @@ Chat application.
 - Next.js (Front/Server Side)
 - Tailwind CSS (Styling)
 - Node.js (Back-end runtime)
+- Express.js (API framework)
 - MongoDB (Database)
 
 ### Installation and Setup
