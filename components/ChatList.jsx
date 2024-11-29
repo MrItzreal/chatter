@@ -30,6 +30,40 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
     fetchUsernames();
   }, []);
 
+  // Fetch Latest Messages
+  useEffect(() => {
+    if (chats.length === 0 || !session?.user?.username) return;
+
+    const fetchLastMessages = async () => {
+      try {
+        const updatedChats = await Promise.all(
+          chats.map(async (chat) => {
+            const res = await fetch(
+              `/api/messages?senderUsername=${session.user.username}&recipientUsername=${chat.username}`
+            );
+
+            if (!res.ok) {
+              console.error("Error fetching latest message for", chat.username);
+              return chat;
+            }
+
+            const data = await res.json();
+            return {
+              ...chat,
+              lastMessage: data ? data.content : null,
+            };
+          })
+        );
+
+        setChats(updatedChats);
+      } catch (error) {
+        console.error("Error fetching latest messages:", error);
+      }
+    };
+
+    fetchLastMessages();
+  }, [chats.length, session?.user?.username]); // Only run when chats change or username changes
+
   // Updates update for user
   const handleStatusChange = (e) => {
     setUpdate(e.target.value);
@@ -46,7 +80,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
   };
 
   // Creates new chat
-  const handleNewChat = (username) => {
+  const handleNewChat = async (username) => {
     if (!username) return;
 
     const newChat = {
@@ -54,6 +88,20 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
       username: username,
       lastMessage: null,
     };
+
+    // Fetch last message for the new chat
+    try {
+      const res = await fetch(
+        `/api/messages?senderUsername=${session.user.username}&recipientUsername=${username}`
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        newChat.lastMessage = data ? data.content : null;
+      }
+    } catch (error) {
+      console.error("Error fetching last message for new chat:", error);
+    }
 
     setChats([newChat, ...chats]);
     setIsDropdownOpen(false);
