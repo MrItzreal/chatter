@@ -32,6 +32,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
 
   // Fetch Latest Messages
   useEffect(() => {
+    // Check to prevent fetching if there are no chats or logged user
     if (chats.length === 0 || !session?.user?.username) return;
 
     const fetchLastMessages = async () => {
@@ -55,14 +56,14 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
           })
         );
 
-        setChats(updatedChats);
+        setChats(updatedChats); // Updates the "chats" state
       } catch (error) {
         console.error("Error fetching latest messages:", error);
       }
     };
 
     fetchLastMessages();
-  }, [chats.length, session?.user?.username]); // Only run when chats change or username changes
+  }, [chats.length, session?.user?.username]); // Only run when chats or username changes
 
   // Updates update for user
   const handleStatusChange = (e) => {
@@ -89,7 +90,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
       lastMessage: null,
     };
 
-    // Fetch last message for the new chat
+    // Fetch last message when creating new chat
     try {
       const res = await fetch(
         `/api/messages?senderUsername=${session.user.username}&recipientUsername=${username}`

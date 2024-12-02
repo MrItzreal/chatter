@@ -11,6 +11,7 @@ export const GET = async (req, { params }) => {
     const senderUsername = searchParams.get("senderUsername");
     const recipientUsername = searchParams.get("recipientUsername");
 
+    // Check ensures both usernames are present in the query parameters
     if (!senderUsername || !recipientUsername) {
       return new Response("Missing username parameters", { status: 400 });
     }
@@ -25,7 +26,7 @@ export const GET = async (req, { params }) => {
           },
         ],
       },
-      "content" //projection to only retrieve "content" field
+      "content" //Projection to only retrieve "content" field
     ).sort({ timestamp: -1 });
 
     return new Response(JSON.stringify(latestMessage), { status: 200 });
