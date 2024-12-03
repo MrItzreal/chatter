@@ -179,7 +179,9 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
             className="flex items-center border-2 rounded-md mb-2 p-2 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
           >
             <div className="text-white max-w-32 overflow-x-auto no-scrollbar">
-              <h4 className="font-bold italic text-base">{chat.username}</h4>
+              <span className="font-bold italic text-base">
+                {chat.username}
+              </span>
               <p className="text-sm truncate">{chat.lastMessage}</p>
             </div>
           </div>

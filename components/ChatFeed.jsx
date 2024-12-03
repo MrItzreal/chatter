@@ -82,16 +82,39 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
       </header>
 
       {/* Chat Feed */}
-      <main className="flex-1 p-4 overflow-y-auto no-scrollbar">
+      <main className="flex-1 p-4 overflow-y-auto no-scrollbar space-y-4 cursor-pointer">
         {messages.map((message) => (
-          <div className="">
+          <div
+            key={message._id}
+            className="flex flex-col 
+        rounded-lg 
+        shadow-md 
+        p-3 
+        max-w-full 
+        transition-all 
+        duration-300 
+        hover:bg-sky-700 
+        hover:shadow-lg
+        border-l-4 
+        border-r-4 
+        border-sky-500"
+          >
             <p
-              className={`text-white text-balance italic ${
-                !chatSelect ? "text-center" : ""
-              }`}
+              className={`text-white text-balance italic  mb-2  ${
+                !chatSelect ? "text-center" : "text-left"
+              } break-words max-w-full`}
             >
               {message.content}
             </p>
+            <span className="text-sm text-slate-300 font-semibold self-end mt-1">
+              {new Date(message.timestamp).toLocaleString([], {
+                year: "2-digit",
+                month: "numeric",
+                day: "numeric",
+                hour: "numeric",
+                minute: "2-digit",
+              })}
+            </span>
           </div>
         ))}
       </main>
