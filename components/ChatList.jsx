@@ -30,7 +30,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
     fetchUsernames();
   }, []);
 
-  // Fetch Latest Messages
+  // Fetch Latest Messages for ALL existing chats
   useEffect(() => {
     // Check to prevent fetching if there are no chats or logged user
     if (chats.length === 0 || !session?.user?.username) return;
@@ -90,7 +90,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
       lastMessage: null,
     };
 
-    // Fetch last message when creating new chat
+    // Fetch Latest Messages of newly created chat
     try {
       const res = await fetch(
         `/api/messages?senderUsername=${session.user.username}&recipientUsername=${username}`
