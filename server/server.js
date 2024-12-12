@@ -95,9 +95,10 @@ async function initializeSocketServer() {
   }
 }
 
-// Helper function to track user socket connections
+// This Map tracks active socket connections for each username
 const userSockets = new Map();
 
+// Allows retrieving a specific user's socket ID
 function getUserSocketId(username) {
   return userSockets.get(username);
 }
