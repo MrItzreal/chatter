@@ -166,7 +166,11 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
 
       {/* Drop Down Menu */}
       {isDropdownOpen && (
-        <DropDownMenu allUsers={allUsers} onUserSelect={handleNewChat} />
+        <DropDownMenu
+          allUsers={allUsers}
+          onUserSelect={handleNewChat}
+          onChatSelect={onChatSelect}
+        />
       )}
 
       <h3 className="font-bold text-lg text-white mb-2">Chat Lists:</h3>

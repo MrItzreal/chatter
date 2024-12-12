@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-const DropDownMenu = ({ allUsers, onUserSelect }) => {
+const DropDownMenu = ({ allUsers, onUserSelect, onChatSelect }) => {
   const [searchTerm, setSearchTerm] = useState(""); // Track search input state
 
   // Seach Input
@@ -12,6 +12,7 @@ const DropDownMenu = ({ allUsers, onUserSelect }) => {
   // Select Username from dropdown menu
   const handleUserSelect = (username) => {
     onUserSelect(username);
+    onChatSelect(username);
   };
 
   // Filter usernames based on letters

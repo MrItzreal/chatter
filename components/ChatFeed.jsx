@@ -39,23 +39,42 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
 
   // Listen for Messages
   useEffect(() => {
-    if (socket && chatSelect) {
-      // Define listener
-      socket.emit("chatSelected", chatSelect.username);
+    if (socket && chatSelect && session?.user?.username) {
+      // Fetch conversation messages
+      socket.emit("fetchConversation", {
+        currentUsername: session.user.username,
+        recipientUsername: chatSelect.username,
+      });
 
-      const handleMessages = (messages) => {
-        setMessages(messages);
+      // Listen for new messages
+      const handleNewMessage = (message) => {
+        // Only add if it's part of current conversation
+        if (
+          (message.senderUsername === chatSelect.username &&
+            message.recipientUsername === session.user.username) ||
+          (message.senderUsername === session.user.username &&
+            message.recipientUsername === chatSelect.username)
+        ) {
+          setMessages((prevMessages) => {
+            // Prevent duplicate messages
+            const messageExists = prevMessages.some(
+              (m) => m._id === message._id
+            );
+            return messageExists ? prevMessages : [...prevMessages, message];
+          });
+        }
       };
 
-      // Attach listener
-      socket.on("messages", handleMessages);
+      socket.on("conversationMessages", setMessages);
+      socket.on("newMessage", handleNewMessage);
 
-      // Cleanup function to remove listener on unmount
+      // Cleanup
       return () => {
-        socket.off("messages", handleMessages);
+        socket.off("conversationMessages", setMessages);
+        socket.off("newMessage", handleNewMessage);
       };
     }
-  }, [socket, chatSelect]);
+  }, [socket, chatSelect, session?.user?.username]);
 
   return (
     <div className="bg-sky-600 border-2 rounded-r-lg flex flex-col h-full">

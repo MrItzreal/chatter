@@ -26,15 +26,24 @@ async function initializeSocketServer() {
     io.on("connection", (socket) => {
       console.log("Client Connected");
 
-      socket.on("chatSelected", async (recipientUsername) => {
+      socket.on("fetchConversation", async (data) => {
         try {
+          const { currentUsername, recipientUsername } = data;
           const messages = await Message.find({
             $or: [
-              { senderUsername: recipientUsername },
-              { recipientUsername: recipientUsername },
+              {
+                senderUsername: currentUsername,
+                recipientUsername: recipientUsername,
+              },
+              {
+                senderUsername: recipientUsername,
+                recipientUsername: currentUsername,
+              },
             ],
-          });
-          socket.emit("messages", messages);
+          }).sort({ timestamp: 1 }); // Sort messages chronologically
+
+          // Emit only to the socket that requested
+          socket.emit("conversationMessages", messages);
         } catch (error) {
           console.error("Error Fetching Messages:", error);
           socket.emit("error", {
@@ -44,6 +53,7 @@ async function initializeSocketServer() {
         }
       });
 
+      // Send and save message
       socket.on("sendMessage", async (messageData) => {
         try {
           const newMessage = new Message({
@@ -54,7 +64,19 @@ async function initializeSocketServer() {
             timestamp: messageData.timestamp,
           });
           await newMessage.save();
-          io.emit("newMessage", newMessage);
+
+          // Broadcast to both sender and recipient
+          const recipientSocketId = getUserSocketId(
+            messageData.recipientUsername
+          );
+          const senderSocketId = getUserSocketId(messageData.senderUsername);
+
+          if (recipientSocketId) {
+            io.to(recipientSocketId).emit("newMessage", newMessage);
+          }
+          if (senderSocketId) {
+            io.to(senderSocketId).emit("newMessage", newMessage);
+          }
         } catch (error) {
           console.error("Error saving or sending message:", error);
           socket.emit("error", {
@@ -71,6 +93,13 @@ async function initializeSocketServer() {
   } catch (error) {
     console.error("Error connecting to the database:", error);
   }
+}
+
+// Helper function to track user socket connections
+const userSockets = new Map();
+
+function getUserSocketId(username) {
+  return userSockets.get(username);
 }
 
 // Start the server and initialize Socket.IO
