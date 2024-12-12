@@ -11,8 +11,8 @@ const DropDownMenu = ({ allUsers, onUserSelect, onChatSelect }) => {
 
   // Select Username from dropdown menu
   const handleUserSelect = (username) => {
-    onUserSelect(username);
-    onChatSelect(username);
+    onUserSelect(username); // Displays conversation on ChatList.jsx
+    onChatSelect(username); // Displays conversation on ChatFeed.jsx
   };
 
   // Filter usernames based on letters
