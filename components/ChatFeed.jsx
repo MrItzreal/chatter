@@ -40,7 +40,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   // Listen for Messages
   useEffect(() => {
     if (socket && chatSelect && session?.user?.username) {
-      // Fetch conversation messages
+      // Fetch conversation between current user & selected chat recipient
       socket.emit("fetchConversation", {
         currentUsername: session.user.username,
         recipientUsername: chatSelect.username,
@@ -55,17 +55,12 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
           (message.senderUsername === session.user.username &&
             message.recipientUsername === chatSelect.username)
         ) {
-          setMessages((prevMessages) => {
-            // Prevent duplicate messages
-            const messageExists = prevMessages.some(
-              (m) => m._id === message._id
-            );
-            return messageExists ? prevMessages : [...prevMessages, message];
-          });
+          setMessages((prevMessages) => [...prevMessages, message]);
         }
       };
-
+      // Sets the initial conversation messages directly
       socket.on("conversationMessages", setMessages);
+      // Handles incoming new messages with the filtering logic
       socket.on("newMessage", handleNewMessage);
 
       // Cleanup
