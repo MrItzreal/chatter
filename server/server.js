@@ -32,10 +32,12 @@ async function initializeSocketServer() {
           const messages = await Message.find({
             $or: [
               {
+                // A to B
                 senderUsername: currentUsername,
                 recipientUsername: recipientUsername,
               },
               {
+                // B to A
                 senderUsername: recipientUsername,
                 recipientUsername: currentUsername,
               },
