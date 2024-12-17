@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
+import { useSession } from "next-auth/react";
 import ChatSettings from "./ChatSettings";
 import ChatList from "./ChatList";
 import ChatFeed from "./ChatFeed";
@@ -10,7 +11,9 @@ const ChatApp = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [chatSelect, setChatSelect] = useState(null);
+  const { data: session } = useSession();
 
+  // Desktop to Mobile based on Screen Size
   useEffect(() => {
     setIsSmallScreen(window.innerWidth < 768);
     const handleResize = () => setIsSmallScreen(window.innerWidth < 768);
@@ -20,6 +23,9 @@ const ChatApp = () => {
 
   // Establish Socket.IO connection
   useEffect(() => {
+    // Only attempt socket connection if user is logged in
+    if (!session?.user) return;
+
     const newSocket = io("http://localhost:3001", {
       reconnection: true,
       reconnectionAttempts: 5,
@@ -28,6 +34,12 @@ const ChatApp = () => {
 
     newSocket.on("connect", () => {
       console.log("Socket connected successfully!");
+
+      // Register the username when socket connects
+      if (session?.user?.username) {
+        newSocket.emit("register", session.user.username);
+      }
+
       setSocket(newSocket);
     });
 
@@ -42,7 +54,7 @@ const ChatApp = () => {
         console.log("Socket disconnected!");
       }
     };
-  }, []);
+  }, [session?.user]);
 
   const toggleNavbar = () => {
     setToggleDropdown(!toggleDropdown);

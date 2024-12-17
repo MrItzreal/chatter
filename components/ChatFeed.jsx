@@ -46,6 +46,11 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         recipientUsername: chatSelect.username,
       });
 
+      // Handle initial conversation messages
+      const handleConversationMessages = (conversationMessages) => {
+        setMessages(conversationMessages);
+      };
+
       // Listen for new messages
       const handleNewMessage = (message) => {
         // Only add if it's part of current conversation
@@ -58,14 +63,15 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
           setMessages((prevMessages) => [...prevMessages, message]);
         }
       };
+      
       // Sets the initial conversation messages directly
-      socket.on("conversationMessages", setMessages);
+      socket.on("conversationMessages", handleConversationMessages);
       // Handles incoming new messages with the filtering logic
       socket.on("newMessage", handleNewMessage);
 
       // Cleanup
       return () => {
-        socket.off("conversationMessages", setMessages);
+        socket.off("conversationMessages", handleConversationMessages);
         socket.off("newMessage", handleNewMessage);
       };
     }
