@@ -30,7 +30,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
     fetchUsernames();
   }, []);
 
-  // Fetch Latest Messages for ALL existing chats
+  // Fetch Last Messages for existing chat
   useEffect(() => {
     // Check to prevent fetching if there are no chats or logged user
     if (chats.length === 0 || !session?.user?.username) return;
@@ -62,8 +62,29 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
       }
     };
 
+    // Fetch Lastest Message for current chat
+    if (socket) {
+      const handleLatestMessage = async (messageData) => {
+        if (
+          messageData.senderUsername === session.user.username ||
+          messageData.recipientUsername === session.user.username
+        ) {
+          // Trigger fetchLastMessages to update chats
+          fetchLastMessages();
+        }
+      };
+
+      // Add socket listener
+      socket.on("newMessage", handleLatestMessage);
+
+      // Cleanup
+      return () => {
+        socket.off("newMessage", handleLatestMessage);
+      };
+    }
+
     fetchLastMessages();
-  }, [chats.length, session?.user?.username]); // Only run when chats or username changes
+  }, [chats.length, session?.user?.username, socket]); // Only run when chats or username changes
 
   // Updates update for user
   const handleStatusChange = (e) => {
@@ -183,10 +204,8 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
             className="flex items-center border-2 rounded-md mb-2 p-2 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
           >
             <div className="text-white max-w-32 overflow-x-auto no-scrollbar">
-              <span className="font-bold italic text-base">
-                {chat.username}
-              </span>
-              <p className="text-sm truncate">{chat.lastMessage}</p>
+              <span className="font-bold text-base">{chat.username}</span>
+              <p className="text-sm truncate italic">{chat.lastMessage}</p>
             </div>
           </div>
         ))}
