@@ -63,7 +63,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
           setMessages((prevMessages) => [...prevMessages, message]);
         }
       };
-      
+
       // Sets the initial conversation messages directly
       socket.on("conversationMessages", handleConversationMessages);
       // Handles incoming new messages with the filtering logic
@@ -126,6 +126,23 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
             >
               {message.content}
             </p>
+
+            {/* EDIT & DELETE BTNS */}
+            <div className="flex items-center justify-end gap-3">
+              <button
+                className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                onClick={"handleEdit"}
+              >
+                Edit
+              </button>
+              <button
+                className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                onClick={"handleDelete"}
+              >
+                Delete
+              </button>
+            </div>
+
             <span className="text-sm text-slate-300 font-semibold self-end mt-1">
               {new Date(message.timestamp).toLocaleString([], {
                 year: "2-digit",
