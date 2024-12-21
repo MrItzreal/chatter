@@ -77,6 +77,31 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
     }
   }, [socket, chatSelect, session?.user?.username]);
 
+  // Delete Messages
+  const handleDelete = async (message) => {
+    const hasConfirmed = confirm(
+      "Are you sure you want to delete this message?"
+    );
+
+    if (hasConfirmed) {
+      try {
+        const response = await fetch(`/api/messages/${message._id}`, {
+          method: "DELETE",
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to delete message");
+        }
+
+        const filteredMessages = messages.filter((m) => m._id !== message._id);
+        setMessages(filteredMessages);
+      } catch (error) {
+        console.error("Error:", error.message);
+        alert("Failed to delete message.");
+      }
+    }
+  };
+
   return (
     <div className="bg-sky-600 border-2 rounded-r-lg flex flex-col h-full">
       <header className="relative p-4 border-b-2 border-sky-700">
@@ -129,15 +154,12 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
 
             {/* EDIT & DELETE BTNS */}
             <div className="flex items-center justify-end gap-3">
-              <button
-                className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
-                onClick={"handleEdit"}
-              >
+              <button className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500">
                 Edit
               </button>
               <button
                 className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
-                onClick={"handleDelete"}
+                onClick={() => handleDelete(message)}
               >
                 Delete
               </button>

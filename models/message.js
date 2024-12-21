@@ -30,10 +30,6 @@ const MessageSchema = new Schema(
     image: {
       type: String,
     },
-    isDeleted: {
-      type: Boolean,
-      default: false,
-    },
   },
   { timestamps: true }
 );

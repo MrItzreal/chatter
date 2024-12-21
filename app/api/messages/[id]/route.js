@@ -1,6 +1,7 @@
-const connectToDB = require("../../../utils/database.js");
+const connectToDB = require("../../../../utils/database.js");
 import Message from "@models/message";
 
+// GET (read)
 export const GET = async (req, { params }) => {
   try {
     await connectToDB();
@@ -35,3 +36,34 @@ export const GET = async (req, { params }) => {
     return new Response("Failed to fetch messages", { status: 500 });
   }
 };
+
+// PATCH (update)
+export const PATCH = async (req, { params }) => {
+  try {
+    await connectToDB();
+  } catch (error) {
+    return new Response("Failed to update message", { status: 500 });
+  }
+};
+
+// DELETE (delete)
+export const DELETE = async (req, { params }) => {
+  try {
+    await connectToDB();
+
+    await Message.findByIdAndDelete(params.id);
+
+    return new Response("Message deleted successfully", { status: 200 });
+  } catch (error) {
+    console.error("Error deleting message:", error);
+    return new Response("Failed to delete message", { status: 500 });
+  }
+};
+
+/*
+NOTES:
+ -findByIdAndDelete() function is part of the Mongoose library and is used to find a matching document, remove it, and pass the found document (if any) to the callback.
+
+PATCH vs PUT:
+-If you need to entirely replace an existing resource with new data, use "PUT".
+-If you only want to modify specific parts of a resource, use "PATCH".In this case we only want to modify: prompts & Tags. */

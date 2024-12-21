@@ -40,7 +40,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
         const updatedChats = await Promise.all(
           chats.map(async (chat) => {
             const res = await fetch(
-              `/api/messages?senderUsername=${session.user.username}&recipientUsername=${chat.username}`
+              `/api/messages/[id]?senderUsername=${session.user.username}&recipientUsername=${chat.username}`
             );
 
             if (!res.ok) {
@@ -114,7 +114,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
     // Fetch Latest Messages of newly created chat
     try {
       const res = await fetch(
-        `/api/messages?senderUsername=${session.user.username}&recipientUsername=${username}`
+        `/api/messages/[id]?senderUsername=${session.user.username}&recipientUsername=${username}`
       );
 
       if (res.ok) {
