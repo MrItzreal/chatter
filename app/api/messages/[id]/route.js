@@ -39,8 +39,25 @@ export const GET = async (req, { params }) => {
 
 // PATCH (update)
 export const PATCH = async (req, { params }) => {
+  const { message } = await req.json();
+
   try {
     await connectToDB();
+
+    const existingMessage = await Message.findById(params.id);
+
+    if (!existingMessage) {
+      return new Response("Message not found", { status: 404 });
+    }
+
+    // If message exists then save updated version
+    existingMessage.content = message;
+    await existingMessage.save();
+
+    // Emit an event to notify clients
+    io.emit("messageUpdated", { messageId: params.id, newContent: message });
+
+    return new Response(JSON.stringify(existingMessage), { status: 200 });
   } catch (error) {
     return new Response("Failed to update message", { status: 500 });
   }
@@ -55,7 +72,6 @@ export const DELETE = async (req, { params }) => {
 
     return new Response("Message deleted successfully", { status: 200 });
   } catch (error) {
-    console.error("Error deleting message:", error);
     return new Response("Failed to delete message", { status: 500 });
   }
 };

@@ -6,6 +6,8 @@ import { useSession } from "next-auth/react";
 const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   const [messages, setMessages] = useState([]); //old messages
   const [newMessage, setNewMessage] = useState(""); //new messages
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedMessage, setUpdatedMessage] = useState("");
   const { data: session } = useSession();
 
   const handleMessageChange = (e) => {
@@ -77,6 +79,24 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
     }
   }, [socket, chatSelect, session?.user?.username]);
 
+  // Updates update for user
+  const handleStatusChange = (e) => {
+    setUpdatedMessage(e.target.value);
+  };
+
+  // Edit Messages
+  const handleEdit = async (message) => {
+    try {
+      setIsEditing(!isEditing);
+      setUpdatedMessage(message.content);
+
+      console.log(setUpdatedMessage);
+    } catch (error) {
+      console.error("Error:", error.message);
+      alert("Failed to edit message.");
+    }
+  };
+
   // Delete Messages
   const handleDelete = async (message) => {
     const hasConfirmed = confirm(
@@ -144,17 +164,40 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         border-r-4 
         border-sky-500"
           >
-            <p
-              className={`text-white text-balance italic  mb-2  ${
-                !chatSelect ? "text-center" : "text-left"
-              } break-words max-w-full`}
-            >
-              {message.content}
-            </p>
+            {isEditing ? (
+              <input
+                type="text"
+                value={updatedMessage}
+                onChange={handleStatusChange}
+                placeholder="Edit Message..."
+                className="flex flex-col 
+        rounded-lg 
+        shadow-md 
+        p-3 
+        mb-2
+        max-w-full 
+        h-24
+        outline-white	
+        border-l-4 
+        border-r-4 
+       "
+              />
+            ) : (
+              <p
+                className={`text-white text-balance italic  mb-2  ${
+                  !chatSelect ? "text-center" : "text-left"
+                } break-words max-w-full`}
+              >
+                {message.content}
+              </p>
+            )}
 
             {/* EDIT & DELETE BTNS */}
             <div className="flex items-center justify-end gap-3">
-              <button className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500">
+              <button
+                className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                onClick={() => handleEdit(message)}
+              >
                 Edit
               </button>
               <button
