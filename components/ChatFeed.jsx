@@ -16,7 +16,6 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
     if (e.key === "Enter") {
       e.preventDefault();
       sendMessage();
-      console.log("Message Sent!");
     }
   };
 
@@ -33,7 +32,8 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
     };
 
     socket.emit("sendMessage", message);
-    console.log("Sending message:", message);
+    console.log("Sending Message:", message);
+    console.log("Message Sent!");
     setNewMessage("");
   };
 
