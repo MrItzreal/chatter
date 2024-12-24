@@ -8,6 +8,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   const [newMessage, setNewMessage] = useState(""); //new messages
   const [isEditing, setIsEditing] = useState(false);
   const [updatedMessage, setUpdatedMessage] = useState("");
+  const [editingMessageId, setEditingMessageId] = useState(null);
   const { data: session } = useSession();
 
   const handleMessageChange = (e) => {
@@ -19,6 +20,11 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
       e.preventDefault();
       sendMessage();
     }
+  };
+
+  // Allows typing in editable field
+  const handleStatusChange = (e) => {
+    setUpdatedMessage(e.target.value);
   };
 
   // Send New Messages
@@ -79,21 +85,58 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
     }
   }, [socket, chatSelect, session?.user?.username]);
 
-  // Updates update for user
-  const handleStatusChange = (e) => {
-    setUpdatedMessage(e.target.value);
-  };
-
   // Edit Messages
-  const handleEdit = async (message) => {
+  const handleEdit = (message) => {
     try {
-      setIsEditing(!isEditing);
-      setUpdatedMessage(message.content);
-
-      console.log(setUpdatedMessage);
+      if (message) {
+        setIsEditing(true);
+        setEditingMessageId(message._id);
+        setUpdatedMessage(message.content);
+      } else {
+        // Handle cancel
+        setIsEditing(false);
+        setEditingMessageId(null);
+        setUpdatedMessage("");
+      }
     } catch (error) {
       console.error("Error:", error.message);
       alert("Failed to edit message.");
+    }
+  };
+
+  // Save Edited Messages
+  const handleSave = async (message) => {
+    try {
+      const res = await fetch(`/api/messages/${message._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: updatedMessage,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessages((prevMessages) =>
+          prevMessages.map((m) =>
+            m._id === message._id ? { ...m, content: updatedMessage } : m
+          )
+        );
+
+        // Reset editing states
+        setIsEditing(false);
+        setEditingMessageId(null);
+        setUpdatedMessage("");
+        handleKeyDown("");
+      } else {
+        throw new Error(data.message || "Failed to update message");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update message");
     }
   };
 
@@ -164,7 +207,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         border-r-4 
         border-sky-500"
           >
-            {isEditing ? (
+            {isEditing && message._id === editingMessageId ? (
               <input
                 type="text"
                 value={updatedMessage}
@@ -192,20 +235,39 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
               </p>
             )}
 
-            {/* EDIT & DELETE BTNS */}
+            {/* EDIT/SAVE/DELETE BTNS */}
             <div className="flex items-center justify-end gap-3">
-              <button
-                className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
-                onClick={() => handleEdit(message)}
-              >
-                Edit
-              </button>
-              <button
-                className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
-                onClick={() => handleDelete(message)}
-              >
-                Delete
-              </button>
+              {isEditing && message._id === editingMessageId ? (
+                <>
+                  <button
+                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                    onClick={() => handleSave(message)}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                    onClick={() => handleEdit(null)}
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                    onClick={() => handleEdit(message)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                    onClick={() => handleDelete(message)}
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
             </div>
 
             <span className="text-sm text-slate-300 font-semibold self-end mt-1">

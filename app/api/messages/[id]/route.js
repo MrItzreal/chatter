@@ -54,9 +54,6 @@ export const PATCH = async (req, { params }) => {
     existingMessage.content = message;
     await existingMessage.save();
 
-    // Emit an event to notify clients
-    io.emit("messageUpdated", { messageId: params.id, newContent: message });
-
     return new Response(JSON.stringify(existingMessage), { status: 200 });
   } catch (error) {
     return new Response("Failed to update message", { status: 500 });
