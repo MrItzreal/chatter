@@ -130,7 +130,6 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         setIsEditing(false);
         setEditingMessageId(null);
         setUpdatedMessage("");
-        handleKeyDown("");
       } else {
         throw new Error(data.message || "Failed to update message");
       }

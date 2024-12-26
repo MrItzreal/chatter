@@ -41,11 +41,10 @@ async function initializeSocketServer() {
 
     // Handle Socket.IO events
     io.on("connection", (socket) => {
-      console.log("Client Connected");
-
       // Register user's socket connection
       socket.on("register", (username) => {
         userSockets.set(username, socket.id);
+        console.log(`User: ${username} Connected`);
         console.log(`User: ${username} registered with socket ID ${socket.id}`);
       });
 
