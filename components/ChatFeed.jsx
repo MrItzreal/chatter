@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { SendSVG, Menu, X } from "@utils/svgfuncs";
+import { SendSVG, Menu, X, DotIcon } from "@utils/svgfuncs";
 import { useSession } from "next-auth/react";
 
 const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
@@ -9,7 +9,17 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [updatedMessage, setUpdatedMessage] = useState("");
   const [editingMessageId, setEditingMessageId] = useState(null);
+  const [activeMessageId, setActiveMessageId] = useState(null);
   const { data: session } = useSession();
+
+  //Dot Menu Option
+  const toggleDotMenu = (messageId) => {
+    if (activeMessageId === messageId) {
+      setActiveMessageId(null); // Close the menu if clicking the same message
+    } else {
+      setActiveMessageId(messageId); // Open menu for clicked message
+    }
+  };
 
   const handleMessageChange = (e) => {
     setNewMessage(e.target.value);
@@ -97,6 +107,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         setIsEditing(false);
         setEditingMessageId(null);
         setUpdatedMessage("");
+        setActiveMessageId(true);
       }
     } catch (error) {
       console.error("Error:", error.message);
@@ -130,6 +141,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         setIsEditing(false);
         setEditingMessageId(null);
         setUpdatedMessage("");
+        setActiveMessageId(null);
       } else {
         throw new Error(data.message || "Failed to update message");
       }
@@ -157,6 +169,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
 
         const filteredMessages = messages.filter((m) => m._id !== message._id);
         setMessages(filteredMessages);
+        setActiveMessageId(null);
       } catch (error) {
         console.error("Error:", error.message);
         alert("Failed to delete message.");
@@ -219,7 +232,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         mb-2
         max-w-full 
         h-24
-        outline-white	
+        outline-white 
         border-l-4 
         border-r-4 
        "
@@ -236,7 +249,11 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
 
             {/* EDIT/SAVE/DELETE BTNS */}
             <div className="flex items-center justify-end gap-3">
-              {isEditing && message._id === editingMessageId ? (
+              {activeMessageId !== message._id ? (
+                <button onClick={() => toggleDotMenu(message._id)}>
+                  <DotIcon className="w-6 h-6 fill-white" />
+                </button>
+              ) : isEditing && message._id === editingMessageId ? (
                 <>
                   <button
                     className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
