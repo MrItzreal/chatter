@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -40,17 +40,44 @@ export const GitHubIcon = ({ className }) => (
 );
 
 // DeleteSVG
-export const DeleteIcon = ({ className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-  >
-    <path d="M15 2H9c-1.103 0-2 .897-2 2v2H3v2h2v12c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2V8h2V6h-4V4c0-1.103-.897-2-2-2zM9 4h6v2H9V4zm8 16H7V8h10v12z" />
-  </svg>
-);
+export const DeleteIcon = ({ className, chatSelect }) => {
+  const { data: session } = useSession();
+
+  const handleDelete = async (chatSelect) => {
+    const hasConfirmed = confirm("You want to delete this conversation?");
+
+    if (hasConfirmed) {
+      try {
+        const url = `/api/messages/[id]?senderUsername=${session.user.username}&recipientUsername=${chatSelect.username}`;
+
+        const response = await fetch(url, {
+          method: "DELETE",
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to delete conversation");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+        alert("Failed to delete conversation.");
+      }
+    }
+  };
+
+  return (
+    <button onClick={() => handleDelete(chatSelect)}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className={className}
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M15 2H9c-1.103 0-2 .897-2 2v2H3v2h2v12c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2V8h2V6h-4V4c0-1.103-.897-2-2-2zM9 4h6v2H9V4zm8 16H7V8h10v12z" />
+      </svg>
+    </button>
+  );
+};
 
 // SignOutSVG
 export const SignOutIcon = ({ className }) => {

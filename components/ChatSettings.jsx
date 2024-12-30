@@ -8,11 +8,11 @@ import {
   X,
 } from "@utils/svgfuncs";
 
-const ChatSettings = ({ isVisible, toggleNavbar }) => {
+const ChatSettings = ({ isVisible, toggleNavbar, chatSelect }) => {
   const menuItems = [
     { Icon: ThemeIcon, alt: "Theme" },
     { Icon: GitHubIcon, alt: "GitHub" },
-    { Icon: DeleteIcon, alt: "Delete" },
+    { Icon: DeleteIcon, alt: "Delete", chatSelect: chatSelect },
     { Icon: SignOutIcon, alt: "Log Out" },
   ];
 

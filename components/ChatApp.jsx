@@ -82,6 +82,7 @@ const ChatApp = () => {
               <ChatSettings
                 isVisible={toggleDropdown}
                 toggleNavbar={toggleNavbar}
+                chatSelect={chatSelect}
               />
               <ChatList
                 socket={socket}

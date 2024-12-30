@@ -60,7 +60,7 @@ export const PATCH = async (req, { params }) => {
   }
 };
 
-// DELETE (delete)
+// DELETE (deletes ONE message)
 export const DELETE = async (req, { params }) => {
   try {
     await connectToDB();
@@ -70,6 +70,33 @@ export const DELETE = async (req, { params }) => {
     return new Response("Message deleted successfully", { status: 200 });
   } catch (error) {
     return new Response("Failed to delete message", { status: 500 });
+  }
+};
+
+// DELETEMANY (deletes ENTIRE conversation)
+export const DELETEMANY = async (req, { params }) => {
+  try {
+    await connectToDB();
+
+    // For App Router, use searchParams from the URL
+    const { searchParams } = new URL(req.url);
+    const senderUsername = searchParams.get("senderUsername");
+    const recipientUsername = searchParams.get("recipientUsername");
+
+    await Message.deleteMany({
+      $or: [
+        { senderUsername, recipientUsername },
+        {
+          senderUsername: recipientUsername, //A to B
+          recipientUsername: senderUsername, //B to A
+        },
+      ],
+    });
+
+    // io.emit("conversationDeleted", { senderUsername, recipientUsername });
+    return new Response("Conversation deleted successfully", { status: 200 });
+  } catch (error) {
+    return new Response("Failed to delete conversation", { status: 500 });
   }
 };
 
