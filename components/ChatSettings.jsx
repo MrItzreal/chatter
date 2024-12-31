@@ -8,11 +8,16 @@ import {
   X,
 } from "@utils/svgfuncs";
 
-const ChatSettings = ({ isVisible, toggleNavbar, chatSelect }) => {
+const ChatSettings = ({
+  isVisible,
+  toggleNavbar,
+  chatSelect,
+  onConversationDelete,
+}) => {
   const menuItems = [
     { Icon: ThemeIcon, alt: "Theme" },
     { Icon: GitHubIcon, alt: "GitHub" },
-    { Icon: DeleteIcon, alt: "Delete", chatSelect: chatSelect },
+    { Icon: DeleteIcon, alt: "Delete" },
     { Icon: SignOutIcon, alt: "Log Out" },
   ];
 
@@ -40,7 +45,11 @@ const ChatSettings = ({ isVisible, toggleNavbar, chatSelect }) => {
         <div className="flex-1 flex flex-col justify-center space-y-6">
           {menuItems.map((item, index) => (
             <div key={index} className="group cursor-pointer">
-              <item.Icon className="w-10 h-10 fill-slate-200 transition-all duration-300 group-hover:scale-110 group-hover:opacity-80" />
+              <item.Icon
+                chatSelect={chatSelect}
+                onConversationDelete={onConversationDelete}
+                className="w-10 h-10 fill-slate-200 transition-all duration-300 group-hover:scale-110 group-hover:opacity-80"
+              />
             </div>
           ))}
         </div>

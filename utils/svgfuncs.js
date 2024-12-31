@@ -40,27 +40,26 @@ export const GitHubIcon = ({ className }) => (
 );
 
 // DeleteSVG
-export const DeleteIcon = ({ className, chatSelect }) => {
+export const DeleteIcon = ({ className, chatSelect, onConversationDelete }) => {
   const { data: session } = useSession();
 
   const handleDelete = async (chatSelect) => {
-    const hasConfirmed = confirm("You want to delete this conversation?");
+    if (!chatSelect || !confirm("You want to delete this conversation?"))
+      return;
 
-    if (hasConfirmed) {
-      try {
-        const url = `/api/messages/[id]?senderUsername=${session.user.username}&recipientUsername=${chatSelect.username}`;
+    try {
+      const response = await fetch(
+        `/api/conversations?senderUsername=${session.user.username}&recipientUsername=${chatSelect.username}`,
+        { method: "DELETE" }
+      );
 
-        const response = await fetch(url, {
-          method: "DELETE",
-        });
+      if (!response.ok) throw new Error("Failed to delete conversation");
 
-        if (!response.ok) {
-          throw new Error("Failed to delete conversation");
-        }
-      } catch (error) {
-        console.error("Error:", error.message);
-        alert("Failed to delete conversation.");
-      }
+      // Call handler to update UI
+      onConversationDelete(chatSelect.username);
+    } catch (error) {
+      console.error("Error:", error.message);
+      alert("Failed to delete conversation.");
     }
   };
 

@@ -65,6 +65,12 @@ const ChatApp = () => {
     setChatSelect({ username, lastMessage });
   };
 
+  // Clear chat if deleted conversation is currently selected
+  const handleConversationDelete = (username) => {
+    if (chatSelect?.username === username) {
+      setChatSelect(null);
+    }
+  };
   return (
     <div className="container mx-auto px-4">
       <div className="max-w-7xl mx-auto h-[700px] my-8 sm:my-24 rounded-lg overflow-hidden shadow-2xl">
@@ -83,11 +89,13 @@ const ChatApp = () => {
                 isVisible={toggleDropdown}
                 toggleNavbar={toggleNavbar}
                 chatSelect={chatSelect}
+                onConversationDelete={handleConversationDelete}
               />
               <ChatList
                 socket={socket}
                 chatSelect={chatSelect}
                 onChatSelect={handleChatSelect}
+                onConversationDelete={handleConversationDelete}
               />
             </div>
           </div>

@@ -73,33 +73,6 @@ export const DELETE = async (req, { params }) => {
   }
 };
 
-// DELETEMANY (deletes ENTIRE conversation)
-export const DELETEMANY = async (req, { params }) => {
-  try {
-    await connectToDB();
-
-    // For App Router, use searchParams from the URL
-    const { searchParams } = new URL(req.url);
-    const senderUsername = searchParams.get("senderUsername");
-    const recipientUsername = searchParams.get("recipientUsername");
-
-    await Message.deleteMany({
-      $or: [
-        { senderUsername, recipientUsername },
-        {
-          senderUsername: recipientUsername, //A to B
-          recipientUsername: senderUsername, //B to A
-        },
-      ],
-    });
-
-    // io.emit("conversationDeleted", { senderUsername, recipientUsername });
-    return new Response("Conversation deleted successfully", { status: 200 });
-  } catch (error) {
-    return new Response("Failed to delete conversation", { status: 500 });
-  }
-};
-
 /*
 NOTES:
  -findByIdAndDelete() function is part of the Mongoose library and is used to find a matching document, remove it, and pass the found document (if any) to the callback.
