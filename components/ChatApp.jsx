@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { useSession } from "next-auth/react";
 import ChatSettings from "./ChatSettings";
@@ -12,6 +12,7 @@ const ChatApp = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [chatSelect, setChatSelect] = useState(null);
   const { data: session } = useSession();
+  const chatListRef = useRef();
 
   // Desktop to Mobile based on Screen Size
   useEffect(() => {
@@ -68,9 +69,12 @@ const ChatApp = () => {
   // Clear chat if deleted conversation is currently selected
   const handleConversationDelete = (username) => {
     if (chatSelect?.username === username) {
-      setChatSelect(null);
+      setChatSelect({ username });
     }
+    // Add ref to ChatList component
+    chatListRef.current?.removeChat(username);
   };
+
   return (
     <div className="container mx-auto px-4">
       <div className="max-w-7xl mx-auto h-[700px] my-8 sm:my-24 rounded-lg overflow-hidden shadow-2xl">
@@ -92,10 +96,10 @@ const ChatApp = () => {
                 onConversationDelete={handleConversationDelete}
               />
               <ChatList
+                ref={chatListRef}
                 socket={socket}
                 chatSelect={chatSelect}
                 onChatSelect={handleChatSelect}
-                onConversationDelete={handleConversationDelete}
               />
             </div>
           </div>

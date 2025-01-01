@@ -1,11 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
 import Image from "next/image";
 import { EditPencil, PlusSign } from "@utils/svgfuncs";
 import { useSession } from "next-auth/react";
 import DropDownMenu from "./DropDownMenu";
 
-const ChatList = ({ socket, chatSelect, onChatSelect }) => {
+const ChatList = ({ socket, chatSelect, onChatSelect }, ref) => {
   const { data: session, status } = useSession();
   const [update, setUpdate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -136,6 +136,18 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
     }
   };
 
+  // This will Delete Chat if ALL messages are deleted.
+  const removeChat = (username) => {
+    setChats((prevChats) =>
+      prevChats.filter((chat) => chat.username !== username)
+    );
+  };
+
+  // Export for ref access
+  useImperativeHandle(ref, () => ({
+    removeChat,
+  }));
+
   return (
     <div className="bg-sky-600 border-2 border-l-0 flex flex-col p-4 sm:w-[280px] flex-1">
       {status === "authenticated" && session?.user && (
@@ -214,4 +226,4 @@ const ChatList = ({ socket, chatSelect, onChatSelect }) => {
   );
 };
 
-export default ChatList;
+export default forwardRef(ChatList);
