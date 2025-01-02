@@ -10,6 +10,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   const [updatedMessage, setUpdatedMessage] = useState("");
   const [editingMessageId, setEditingMessageId] = useState(null);
   const [activeMessageId, setActiveMessageId] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
   const { data: session } = useSession();
 
   //Dot Menu Option
@@ -94,6 +95,24 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
       };
     }
   }, [socket, chatSelect, session?.user?.username]);
+
+  // Handle Connection Status
+  useEffect(() => {
+    if (!socket || !chatSelect) return;
+
+    setIsConnected(socket);
+
+    const onConnect = () => setIsConnected(true);
+    const onDisconnect = () => setIsConnected(false);
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+  }, [socket, chatSelect]);
 
   // Edit Messages
   const handleEdit = (message) => {
@@ -195,9 +214,15 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
           <h1 className="text-white text-xl sm:text-2xl font-bold">
             {chatSelect ? chatSelect.username : "Select A Chat"}
           </h1>
-          <p className="text-sm text-white italic font-extrabold">
-            Slaying Vampires!
-          </p>
+          <span
+            className={`text-sm ${
+              isConnected
+                ? "text-green-400 font-bold"
+                : "text-red-400 font-bold"
+            }`}
+          >
+            {isConnected ? "Connected" : "Disconnected"}
+          </span>
         </div>
       </header>
 
