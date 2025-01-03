@@ -32,6 +32,15 @@ function getUserSocketId(username) {
   return userSockets.get(username);
 }
 
+// broadcastInitialStatus
+function broadcastInitialStatus(socket, username) {
+  // Get all connected users
+  const connectedUsers = Array.from(userSockets.keys());
+
+  // Send initial status to the newly connected user
+  socket.emit("initialConnectionStatus", connectedUsers);
+}
+
 // Async function to connect to the database and handle socket connections
 async function initializeSocketServer() {
   try {
@@ -44,8 +53,14 @@ async function initializeSocketServer() {
       // Register user's socket connection
       socket.on("register", (username) => {
         userSockets.set(username, socket.id);
+
+        // Broadcast to all clients that this user connected
+        io.emit("userConnectionUpdate", { username, status: "connected" });
+
+        // Send initial status to the newly connected user
+        broadcastInitialStatus(socket, username);
+
         console.log(`User: ${username} Connected`);
-        console.log(`User: ${username} registered with socket ID ${socket.id}`);
       });
 
       socket.on("fetchConversation", async (data) => {
@@ -112,12 +127,21 @@ async function initializeSocketServer() {
 
       socket.on("disconnect", () => {
         // Remove the socket from the userSockets map when disconnected
+        let disconnectedUsername = null;
         for (const [username, socketId] of userSockets.entries()) {
           if (socketId === socket.id) {
+            disconnectedUsername = username;
             userSockets.delete(username);
-            console.log(`User: ${username} Disconnected`);
             break;
           }
+        }
+
+        if (disconnectedUsername) {
+          io.emit("userConnectionUpdate", {
+            username: disconnectedUsername,
+            status: "disconnected",
+          });
+          console.log(`User: ${disconnectedUsername} Disconnected`);
         }
       });
     });

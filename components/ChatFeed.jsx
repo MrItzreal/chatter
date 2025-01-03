@@ -10,7 +10,8 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   const [updatedMessage, setUpdatedMessage] = useState("");
   const [editingMessageId, setEditingMessageId] = useState(null);
   const [activeMessageId, setActiveMessageId] = useState(null);
-  const [isConnected, setIsConnected] = useState(false);
+  const [connectedUsers, setConnectedUsers] = useState(new Set());
+  const [connectionInitialized, setConnectionInitialized] = useState(false);
   const { data: session } = useSession();
 
   //Dot Menu Option
@@ -100,19 +101,38 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   useEffect(() => {
     if (!socket || !chatSelect) return;
 
-    setIsConnected(socket);
+    // Handle initial connection status
+    const handleInitialStatus = (users) => {
+      setConnectedUsers(new Set(users));
+      setConnectionInitialized(true);
+    };
 
-    const onConnect = () => setIsConnected(true);
-    const onDisconnect = () => setIsConnected(false);
+    // Handle individual connection updates
+    const handleConnectionUpdate = (update) => {
+      setConnectedUsers((prevUsers) => {
+        const newUsers = new Set(prevUsers);
+        if (update.status === "connected") {
+          newUsers.add(update.username);
+        } else {
+          newUsers.delete(update.username);
+        }
+        return newUsers;
+      });
+    };
 
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
+    socket.on("initialConnectionStatus", handleInitialStatus);
+    socket.on("userConnectionUpdate", handleConnectionUpdate);
+
+    // Request initial status when component mounts
+    if (!connectionInitialized) {
+      socket.emit("register", session.user.username);
+    }
 
     return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
+      socket.off("initialConnectionStatus", handleInitialStatus);
+      socket.off("userConnectionUpdate", handleConnectionUpdate);
     };
-  }, [socket, chatSelect]);
+  }, [socket, chatSelect, connectionInitialized]);
 
   // Edit Messages
   const handleEdit = (message) => {
@@ -216,12 +236,18 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
           </h1>
           <span
             className={`text-sm ${
-              isConnected
+              !connectionInitialized
+                ? "text-yellow-400 font-bold"
+                : connectedUsers.has(chatSelect?.username)
                 ? "text-green-400 font-bold"
                 : "text-red-400 font-bold"
             }`}
           >
-            {isConnected ? "Connected" : "Disconnected"}
+            {!connectionInitialized
+              ? "Connecting..."
+              : connectedUsers.has(chatSelect?.username)
+              ? "Online"
+              : "Offline"}
           </span>
         </div>
       </header>
