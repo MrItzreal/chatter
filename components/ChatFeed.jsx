@@ -230,6 +230,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
           )}
         </button>
 
+        {/* Connection Status: Connecting/Online/Offline */}
         <div className="text-center">
           <h1 className="text-white text-xl sm:text-2xl font-bold">
             {chatSelect ? chatSelect.username : "Select A Chat"}
