@@ -347,6 +347,10 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
                 minute: "2-digit",
               })}
             </span>
+
+            <span className="text-xs text-slate-300 font-semibold self-end mt-1">
+              {message.senderUsername}
+            </span>
           </div>
         ))}
       </main>
