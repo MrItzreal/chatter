@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SendSVG, Menu, X, DotIcon } from "@utils/svgfuncs";
 import { useSession } from "next-auth/react";
 
@@ -13,6 +13,9 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   const [connectedUsers, setConnectedUsers] = useState(new Set());
   const [connectionInitialized, setConnectionInitialized] = useState(false);
   const { data: session } = useSession();
+
+  // useRef for the chatFeed container
+  const chatFeedRef = useRef(null);
 
   //Dot Menu Option
   const toggleDotMenu = (messageId) => {
@@ -82,6 +85,15 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         ) {
           setMessages((prevMessages) => [...prevMessages, message]);
         }
+
+        // Scroll to the bottom after updating the state
+        // Delayed to make sure the messages have been updated
+        setTimeout(() => {
+          chatFeedRef.current?.scrollTo({
+            top: chatFeedRef.current.scrollHeight,
+            behavior: "smooth",
+          });
+        }, 100);
       };
 
       // Sets the initial conversation messages directly
@@ -254,7 +266,10 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
       </header>
 
       {/* Chat Feed */}
-      <main className="flex-1 p-4 overflow-y-auto no-scrollbar space-y-4 cursor-pointer">
+      <main
+        ref={chatFeedRef}
+        className="flex-1 p-4 overflow-y-auto no-scrollbar space-y-4 cursor-pointer"
+      >
         {messages.map((message) => (
           <div
             key={message._id}
