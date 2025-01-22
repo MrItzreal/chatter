@@ -15,3 +15,60 @@
     scrollbar-width: none;
   }
 }
+
+@layer base {
+  :root {
+    --bglayout: 111, 161, 207;
+    --bgcolor: 2, 132, 199;
+    --hover: 3, 105, 161;
+    --border: 3, 105, 161;
+    --chatbubblesides: 14, 165, 233;
+    --sendicon: 3, 105, 161;
+    --sendiconhover: 7, 89, 133;
+  }
+
+  * {
+    @apply transition-colors duration-500 ease-in-out;
+  }
+}
+
+/* Color Themes */
+.light {
+  --bglayout: 111, 161, 207;
+  --bgcolor: 2, 132, 199;
+  --hover: 3, 105, 161;
+  --border: 3, 105, 161;
+  --chatbubblesides: 14, 165, 233;
+  --sendicon: 3, 105, 161;
+  --sendiconhover: 7, 89, 133;
+}
+
+.dark {
+  --bglayout: 28, 40, 54;
+  --bgcolor: 18, 36, 49;
+  --hover: 21, 57, 85;
+  --border: 42, 66, 85;
+  --chatbubblesides: 38, 74, 115;
+  --sendicon: 50, 82, 117;
+  --sendiconhover: 60, 97, 137;
+}
+
+.pink {
+  --bglayout: 255, 182, 193;
+  --bgcolor: 255, 105, 180;
+  --hover: 255, 87, 108;
+  --border: 255, 105, 180;
+  --chatbubblesides: 255, 105, 180;
+  --sendicon: 255, 87, 108;
+  --sendiconhover: 255, 82, 118;
+}
+
+.orange {
+  --bglayout: 255, 165, 0;
+  --bgcolor: 255, 140, 0;
+  --hover: 255, 87, 34;
+  --border: 255, 87, 34;
+  --chatbubblesides: 255, 109, 0;
+  --sendicon: 255, 87, 34;
+  --sendiconhover: 255, 65, 0;
+}

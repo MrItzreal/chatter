@@ -8,8 +8,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        bglayout: "rgb(var(--bglayout))",
+        bgcolor: "rgb(var(--bgcolor))",
+        hover: "rgb(var(--hover))",
+        border: "rgb(var(--border))",
+        chatbubblesides: "rgb(var(--chatbubblesides))",
+        sendicon: "rgb(var(--sendicon))",
+        sendiconhover: "rgb(var(--sendiconhover))",
       },
     },
   },

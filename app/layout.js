@@ -12,7 +12,7 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
-      <body className="bg-gradient-to-l from-sky-700 via-slate-300 to-sky-700 font-mono">
+      <body className="bg-bglayout font-mono">
         <Provider>
           {children}
           <Particle />
