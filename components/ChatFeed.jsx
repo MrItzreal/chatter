@@ -338,7 +338,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
               )}
             </div>
 
-            <span className="text-sm text-slate-300 font-semibold self-end mt-1">
+            <span className="text-xs text-slate-300 font-semibold self-end mt-1">
               {new Date(message.timestamp).toLocaleString([], {
                 year: "2-digit",
                 month: "numeric",
