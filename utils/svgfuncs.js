@@ -1,16 +1,34 @@
+"use client";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // ThemeSVG
 export const ThemeIcon = ({ className }) => {
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    // Initialize theme from local storage, default to 'light' if not set
+    return localStorage.getItem("theme") || "light";
+  });
+
+  // Update the body class and local storage whenever the theme changes
+  useEffect(() => {
+    document.body.className = `theme-${currentTheme} bg-bglayout font-mono`;
+    localStorage.setItem("theme", currentTheme);
+  }, [currentTheme]);
+
+  const themes = ["light", "dark", "pink", "orange"];
+
+  const toggleTheme = () => {
+    // Cycle through the themes
+    const nextTheme =
+      themes[(themes.indexOf(currentTheme) + 1) % themes.length];
+    setCurrentTheme(nextTheme);
+  };
+
   return (
-    <button
-      onClick={() => {
-        console.log("Hey");
-      }}
-    >
+    <button onClick={toggleTheme}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className={className}

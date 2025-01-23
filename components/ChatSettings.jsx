@@ -23,7 +23,7 @@ const ChatSettings = ({
 
   return (
     <div className="h-full">
-      <div className="bg-sky-600 border-2 rounded-l-lg p-2 flex flex-col items-center h-full">
+      <div className="bg-bgcolor border-2 rounded-l-lg p-2 flex flex-col items-center h-full">
         <div className="mb-8">
           {!isVisible ? (
             <Image

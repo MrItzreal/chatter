@@ -23,6 +23,7 @@
     --hover: 3, 105, 161;
     --border: 3, 105, 161;
     --chatbubblesides: 14, 165, 233;
+    --focusrings: 59, 130, 246;
     --sendicon: 3, 105, 161;
     --sendiconhover: 7, 89, 133;
   }
@@ -33,12 +34,13 @@
 }
 
 /* Color Themes */
-.theme-light {
+.theme-blue {
   --bglayout: 111, 161, 207;
   --bgcolor: 2, 132, 199;
   --hover: 3, 105, 161;
   --border: 3, 105, 161;
   --chatbubblesides: 14, 165, 233;
+  --focusrings: 59, 130, 246;
   --sendicon: 3, 105, 161;
   --sendiconhover: 7, 89, 133;
 }
@@ -49,6 +51,7 @@
   --hover: 21, 57, 85;
   --border: 42, 66, 85;
   --chatbubblesides: 38, 74, 115;
+  --focusrings: 50, 82, 117;
   --sendicon: 50, 82, 117;
   --sendiconhover: 60, 97, 137;
 }
@@ -57,8 +60,9 @@
   --bglayout: 255, 182, 193;
   --bgcolor: 255, 105, 180;
   --hover: 255, 87, 108;
-  --border: 255, 105, 180;
-  --chatbubblesides: 255, 105, 180;
+  --border: 255, 82, 118;
+  --chatbubblesides: 245, 82, 108;
+  --focusrings: 255, 87, 108;
   --sendicon: 255, 87, 108;
   --sendiconhover: 255, 82, 118;
 }
@@ -69,6 +73,7 @@
   --hover: 255, 87, 34;
   --border: 255, 87, 34;
   --chatbubblesides: 255, 109, 0;
+  --focusrings: 255, 109, 0;
   --sendicon: 255, 87, 34;
   --sendiconhover: 255, 65, 0;
 }

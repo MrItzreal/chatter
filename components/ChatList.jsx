@@ -149,7 +149,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }, ref) => {
   }));
 
   return (
-    <div className="bg-sky-600 border-2 border-l-0 flex flex-col p-4 sm:w-[280px] flex-1">
+    <div className="bg-bgcolor border-2 border-l-0 flex flex-col p-4 sm:w-[280px] flex-1">
       {status === "authenticated" && session?.user && (
         <div className="flex flex-col items-center gap-3 mb-4">
           <Image
@@ -191,7 +191,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }, ref) => {
 
       <button
         onClick={toggleDropdown}
-        className="flex justify-center items-center border-2 rounded-full h-10 px-4 mb-4 text-white transition-all duration-300 hover:bg-sky-700 hover:scale-105"
+        className="flex justify-center items-center border-2 rounded-full h-10 px-4 mb-4 text-white transition-all duration-300 hover:bg-hover hover:scale-105"
       >
         <p className="font-bold italic text-base mr-2">New Chat</p>
         <PlusSign className="w-5 h-5 fill-white" />
@@ -213,7 +213,7 @@ const ChatList = ({ socket, chatSelect, onChatSelect }, ref) => {
           <div
             key={chat.id}
             onClick={() => onChatSelect(chat.username, chat.lastMessage)}
-            className="flex items-center border-2 rounded-md mb-2 p-2 transition-all duration-300 hover:bg-sky-700 cursor-pointer"
+            className="flex items-center border-2 rounded-md mb-2 p-2 transition-all duration-300 hover:bg-hover cursor-pointer"
           >
             <div className="text-white max-w-32 overflow-x-auto no-scrollbar">
               <span className="font-bold text-base">{chat.username}</span>

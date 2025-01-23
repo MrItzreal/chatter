@@ -229,8 +229,8 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
   };
 
   return (
-    <div className="bg-sky-600 border-2 rounded-r-lg flex flex-col h-full">
-      <header className="relative p-4 border-b-2 border-sky-700">
+    <div className="bg-bgcolor border-2 rounded-r-lg flex flex-col h-full">
+      <header className="relative p-4 border-b-2 border-border">
         <button
           onClick={toggleNavbar}
           className="sm:hidden absolute left-4 top-1/2 -translate-y-1/2"
@@ -253,7 +253,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
                 ? "text-yellow-400 font-bold"
                 : connectedUsers.has(chatSelect?.username)
                 ? "text-green-400 font-bold"
-                : "text-red-400 font-bold"
+                : "text-red-200 font-bold"
             }`}
           >
             {!connectionInitialized
@@ -280,11 +280,11 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
         max-w-full 
         transition-all 
         duration-300 
-        hover:bg-sky-700 
+        hover:bg-hover
         hover:shadow-lg
         border-l-4 
         border-r-4 
-        border-sky-500"
+        border-chatbubblesides"
           >
             {isEditing && message._id === editingMessageId ? (
               <input
@@ -323,13 +323,13 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
               ) : isEditing && message._id === editingMessageId ? (
                 <>
                   <button
-                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-focusrings"
                     onClick={() => handleSave(message)}
                   >
                     Save
                   </button>
                   <button
-                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-focusrings"
                     onClick={() => handleEdit(null)}
                   >
                     Cancel
@@ -338,13 +338,13 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
               ) : (
                 <>
                   <button
-                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-focusrings"
                     onClick={() => handleEdit(message)}
                   >
                     Edit
                   </button>
                   <button
-                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-blue-500"
+                    className="inline-flex items-center px-3 text-sm font-medium text-white transition-colors border-2 border-white/20 rounded-full hover:bg-white/10 hover:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-focusrings"
                     onClick={() => handleDelete(message)}
                   >
                     Delete
@@ -371,7 +371,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
       </main>
 
       {/* Send Text/Button */}
-      <section className="p-4 border-t-2 border-sky-700">
+      <section className="p-4 border-t-2 border-border">
         <div className="flex items-center bg-white rounded-full overflow-hidden max-w-3xl mx-auto">
           <input
             type="text"
@@ -383,7 +383,7 @@ const ChatFeed = ({ isVisible, toggleNavbar, socket, chatSelect }) => {
           />
           <button
             onClick={sendMessage}
-            className="p-2 bg-sky-700 hover:bg-sky-800 transition-colors duration-300"
+            className="p-2 bg-sendicon hover:bg-sendiconhover transition-colors duration-300"
           >
             <SendSVG className="w-6 h-6 fill-white" />
           </button>

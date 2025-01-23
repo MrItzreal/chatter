@@ -13,6 +13,7 @@ module.exports = {
         hover: "rgb(var(--hover))",
         border: "rgb(var(--border))",
         chatbubblesides: "rgb(var(--chatbubblesides))",
+        focusrings: "rgb(var(--focusrings))",
         sendicon: "rgb(var(--sendicon))",
         sendiconhover: "rgb(var(--sendiconhover))",
       },
