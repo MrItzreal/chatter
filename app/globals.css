@@ -33,7 +33,7 @@
 }
 
 /* Color Themes */
-.light {
+.theme-light {
   --bglayout: 111, 161, 207;
   --bgcolor: 2, 132, 199;
   --hover: 3, 105, 161;
@@ -43,7 +43,7 @@
   --sendiconhover: 7, 89, 133;
 }
 
-.dark {
+.theme-dark {
   --bglayout: 28, 40, 54;
   --bgcolor: 18, 36, 49;
   --hover: 21, 57, 85;
@@ -53,7 +53,7 @@
   --sendiconhover: 60, 97, 137;
 }
 
-.pink {
+.theme-pink {
   --bglayout: 255, 182, 193;
   --bgcolor: 255, 105, 180;
   --hover: 255, 87, 108;
@@ -63,7 +63,7 @@
   --sendiconhover: 255, 82, 118;
 }
 
-.orange {
+.theme-orange {
   --bglayout: 255, 165, 0;
   --bgcolor: 255, 140, 0;
   --hover: 255, 87, 34;
