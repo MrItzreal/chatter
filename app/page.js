@@ -1,7 +1,8 @@
-import SignIn from "@/components/SignIn";
+import { redirect } from "next/navigation";
 
 const Home = () => {
-  return <SignIn />;
+  redirect("/signin");
+  return null;
 };
 
 export default Home;
