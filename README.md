@@ -83,6 +83,45 @@ The `users` collection represents the core entity in the application. The `messa
 
 This structure enables the application to manage user registration, authentication, and chat functionality. New users are first created in the `registrations` collection. Upon successful registration, their information is moved to the `users` collection, granting them access to the application. Users can then send messages to each other, which are stored in the `messages` collection.
 
+# Authentication
+
+This application uses NextAuth.js for authentication. NextAuth.js is a complete open-source authentication solution for Next.js applications. It provides a simple and flexible way to implement various authentication strategies, including credentials-based authentication, social logins, and more.
+
+## Credentials Based Auth
+
+The application utilizes the Credentials Provider from NextAuth.js to enable users to log in with their `username` and `password` credentials. This provider allows you to define your own authentication logic, giving you full control over the process.
+
+## How it works
+
+1. **User enters credentials:** The user enters their username and password in the sign-in form.
+2. **Credentials are sent to the server:** The frontend sends a POST request to the `/api/auth/[...nextauth]/route.js` endpoint with the user's credentials.
+3. **NextAuth.js handles authentication:** NextAuth.js intercepts this request and uses the `authorize` function defined in your NextAuth.js configuration to verify the credentials.
+4. **Credentials are verified:** The `authorize` function queries your `MongoDB` database to find the user with the given username. If the user is found, it compares the provided password with the stored password hash using bcrypt.
+5. **Session is created:** If the credentials are valid, NextAuth.js creates a new session for the user and stores it securely using JWT (JSON Web Tokens).
+6. **User is redirected:** The user is redirected to the chat interface, where they can now access protected routes and features.
+
+## User Session Management
+
+- **`useSession` hook:** This hook is used in `ChatApp.jsx`, `ChatFeed.jsx`, and `ChatList.jsx` to access the user's session information, including their authentication status and user details. The `data` property of the `useSession` hook returns the current session object, which includes the `user` property if the user is authenticated.
+- **`status === "authenticated"` check:** In `ChatList.jsx`, the `status === "authenticated"` check is used to determine if the user is currently logged in. If the user is authenticated, the `session?.user` property will be available, and you can access the user's information.
+- **`SignOutIcon`:** This icon in the `ChatSettings.jsx` handles the sign-out functionality. It uses the `signOut` function from `next-auth/react` to log out the user and redirect them to the sign-in page.
+
+# SessionProvider
+
+To make session data accessible throughout the application, we wrap the root layout with the `SessionProvider` component from `next-auth/react`.
+
+## Implementation
+
+### `Provider.jsx`
+
+This component acts as a wrapper for the `SessionProvider`. It receives the `children` prop, which represents the rest of the application's UI, and wraps it with the `SessionProvider`.
+
+### `app/layout.js`
+
+This file defines the root layout of the application. It imports the `Provider` component and wraps the entire application's content (`{children}`) with it. Wrapping the application with `SessionProvider` makes the session data accessible to any component that needs it, without having to manually pass it down as props.
+
+NextAuth.js handles session management automatically, including creating, updating, and expiring sessions. This simplifies the authentication process and reduces boilerplate code.The `SessionProvider` can be customized with various options, such as the session strategy (JWT, database, etc.) and cookie settings.
+
 ## Project Dependencies
 
 This document outlines the Node Package Manager (NPM) dependencies used in this project.
